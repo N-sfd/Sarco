@@ -1,0 +1,609 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Sarco Appliances — Retail Design System
+   ============================================================ */
+
+@theme {
+  --color-navy: #10283f;
+  --color-navy-800: #0c1f32;
+  --color-navy-900: #071828;
+  --color-charcoal: #2c3540;
+  --color-accent: #e96a50;
+  --color-accent-400: #f0846e;
+  --color-accent-600: #d9583e;
+  --color-accent-700: #c94c35;
+  --color-accent-50: #fcebe7;
+  --color-icon-blue: #083b82;
+  --color-ink: #1c2430;
+  --color-muted: #5c6775;
+  --color-border: #cbd2d9;
+  --color-surface: #f4f5f7;
+  --color-mist: #e9edf2;
+  --color-light-blue: #e8f1f8;
+  --color-success: #1f7a3f;
+  --color-gold: #d4a017;
+  --color-background: #ffffff;
+  --color-foreground: #1c2430;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+
+  /* Header desktop/mobile switch — the 12-item mega nav needs more room than
+     the default lg (1024px) breakpoint gives it before items get clipped. */
+  --breakpoint-nav: 1180px;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+  color: var(--color-navy);
+  line-height: 1.15;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-navy);
+  outline-offset: 2px;
+}
+
+/* Shared 1440px page container */
+.page-container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+@media (min-width: 768px) {
+  .page-container {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-container {
+    padding-inline: 48px;
+  }
+}
+
+/* Alias for existing class names during migration */
+.container-retail {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+@media (min-width: 768px) {
+  .container-retail {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-retail {
+    padding-inline: 48px;
+  }
+}
+
+/* Button system */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+  padding: 0.75rem 1.5rem;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Primary = coral-orange retail CTA */
+.btn-primary,
+.btn-accent {
+  background: var(--color-accent);
+  color: #fff;
+  border: 1px solid var(--color-accent);
+  min-height: 46px;
+  padding-inline: 24px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.btn-primary:hover,
+.btn-accent:hover {
+  background: var(--color-accent-600);
+}
+.btn-primary:active,
+.btn-accent:active {
+  background: var(--color-accent-700);
+}
+
+.btn-secondary,
+.btn-outline {
+  background: transparent;
+  color: var(--color-navy);
+  border: 1px solid var(--color-navy);
+}
+.btn-secondary:hover,
+.btn-outline:hover {
+  background: var(--color-surface);
+}
+
+.btn-navy {
+  background: var(--color-navy);
+  color: #fff;
+  border: 1px solid var(--color-navy);
+}
+.btn-navy:hover {
+  background: var(--color-navy-800);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: inherit;
+  border: 1px solid transparent;
+}
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-lg {
+  min-height: 48px;
+  padding-inline: 28px;
+  font-size: 15px;
+}
+
+.btn-sm {
+  min-height: 40px;
+  padding: 0.5rem 1rem;
+  font-size: 13px;
+}
+
+.input-retail {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  padding: 0.625rem 0.875rem;
+  font-size: 15px;
+  color: var(--color-ink);
+}
+.input-retail:focus {
+  outline: none;
+  border-color: var(--color-navy);
+  box-shadow: 0 0 0 2px rgba(16, 40, 63, 0.12);
+}
+
+.section-pad {
+  padding-block: 72px;
+}
+
+@media (max-width: 767px) {
+  .section-pad {
+    padding-block: 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@keyframes logo-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.logo-animate {
+  animation: logo-fade-in 0.45s ease-out both;
+}
+
+/* =========================================================
+   Shop by Category — featured (3 cards) + additional grid
+   ========================================================= */
+
+.featured-category-section {
+  position: relative;
+  min-height: auto;
+  padding-top: 48px;
+  padding-bottom: 48px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.featured-category-inner {
+  position: relative;
+  width: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+}
+
+.featured-category-desktop {
+  display: none;
+}
+
+.featured-category-responsive {
+  display: block;
+  width: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.featured-category-heading {
+  position: absolute;
+  top: 18px;
+  left: 5%;
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #10283f;
+  z-index: 5;
+}
+
+.featured-category-heading-static {
+  margin: 0 0 28px;
+  font-size: 26px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #10283f;
+  text-align: left;
+}
+
+.kitchen-essentials-panel {
+  position: absolute;
+  top: 0;
+  left: 36%;
+  width: 58%;
+  height: 480px;
+  background: #fafafa;
+  border: 1px solid #dfe3e8;
+  border-radius: 0 0 72px 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.kitchen-essentials-label {
+  position: absolute;
+  top: 62px;
+  left: 58%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #303943;
+  z-index: 1;
+}
+
+.kitchen-essentials-curve {
+  pointer-events: none;
+  position: absolute;
+  right: -40px;
+  bottom: 0;
+  width: 192px;
+  height: 192px;
+  rotate: 12deg;
+  background: rgba(255, 255, 255, 0.8);
+  clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.featured-category-card--refrigeration,
+.featured-category-card--cooking,
+.featured-category-card--dishwashers {
+  position: absolute;
+}
+
+.featured-category-card--refrigeration {
+  top: 132px;
+  left: 3%;
+  width: 330px;
+  height: 555px;
+  z-index: 3;
+}
+
+.featured-category-card--cooking {
+  top: 178px;
+  left: 36%;
+  width: 330px;
+  height: 555px;
+  z-index: 4;
+}
+
+.featured-category-card--dishwashers {
+  top: 132px;
+  right: 3%;
+  width: 330px;
+  height: 555px;
+  z-index: 3;
+}
+
+.featured-category-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 64px 0 64px 0;
+  transform: translateZ(0);
+}
+
+.featured-category-card-link {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.featured-category-card--responsive {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  height: 500px;
+  margin-inline: auto;
+}
+
+.featured-category-title {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 94px;
+  flex-shrink: 0;
+  padding-inline: 44px;
+  background: #083b82;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.featured-category-image-wrapper {
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: calc(100% - 94px);
+  overflow: hidden;
+}
+
+.featured-category-image {
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1);
+  filter: brightness(1);
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.featured-category-responsive-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  justify-items: center;
+}
+
+/* Additional categories — separate flow section */
+.additional-category-section {
+  padding: 48px 20px;
+  background: #f7f9fb;
+}
+
+.additional-category-inner {
+  max-width: 1360px;
+  margin-inline: auto;
+}
+
+.additional-category-heading {
+  margin: 0 0 28px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #10283f;
+}
+
+.additional-category-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.additional-category-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 250ms ease;
+}
+
+.additional-category-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #f0f2f4;
+}
+
+.additional-category-image {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.additional-category-title {
+  padding: 14px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #10283f;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* Image-only zoom — card, title, and position stay static */
+  .featured-category-card:hover .featured-category-image {
+    transform: scale(1.04);
+    filter: brightness(1.03);
+  }
+
+  .additional-category-card:hover {
+    box-shadow: 0 10px 24px rgba(8, 35, 70, 0.08);
+  }
+
+  .additional-category-card:hover .additional-category-image {
+    transform: scale(1.035);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featured-category-image {
+    transition: none;
+  }
+
+  .featured-category-card:hover .featured-category-image {
+    transform: none;
+    filter: none;
+  }
+
+  .additional-category-image,
+  .additional-category-card {
+    transition: none !important;
+  }
+
+  .additional-category-card:hover .additional-category-image {
+    transform: none !important;
+  }
+}
+
+/* Tablet: 680px – 1099px */
+@media (min-width: 680px) {
+  .featured-category-heading-static {
+    text-align: left;
+    font-size: 28px;
+  }
+
+  .featured-category-responsive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-items: stretch;
+  }
+
+  .featured-category-card--responsive {
+    max-width: none;
+    height: 480px;
+  }
+
+  .additional-category-section {
+    padding: 64px 24px;
+  }
+
+  .additional-category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Desktop featured composition: 1100px+ */
+@media (min-width: 1100px) {
+  /* Tall enough for Cooking (top 178 + height 555) without clipping */
+  .featured-category-section {
+    min-height: 900px;
+    padding-top: 72px;
+    padding-bottom: 80px;
+  }
+
+  .featured-category-inner {
+    min-height: 750px;
+  }
+
+  .featured-category-desktop {
+    display: block;
+  }
+
+  .featured-category-responsive {
+    display: none;
+  }
+
+  .additional-category-section {
+    padding: 72px 24px;
+  }
+
+  .additional-category-heading {
+    font-size: 26px;
+  }
+
+  .additional-category-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 679px) {
+  .featured-category-heading-static {
+    text-align: center;
+    font-size: 24px;
+  }
+
+  .featured-category-card {
+    border-radius: 40px 0 40px 0;
+  }
+
+  .featured-category-title {
+    height: 72px;
+    padding-inline: 28px;
+    font-size: 16px;
+  }
+
+  .featured-category-image-wrapper {
+    height: calc(100% - 72px);
+  }
+
+  .featured-category-card--responsive {
+    height: 500px;
+  }
+}

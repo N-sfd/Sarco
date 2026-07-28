@@ -1,0 +1,487 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUSTOMER
+  TECHNICIAN
+  ADMIN
+  BUILDER
+}
+
+enum AvailabilityStatus {
+  IN_STOCK
+  LIMITED
+  DELIVERY
+  CALL
+  SPECIAL_ORDER
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+enum RepairStatus {
+  REQUESTED
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String?
+  phone        String?
+  role         UserRole  @default(CUSTOMER)
+  passwordHash String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  customer     Customer?
+  technician   Technician?
+}
+
+model Customer {
+  id               String                 @id @default(cuid())
+  userId           String                 @unique
+  user             User                   @relation(fields: [userId], references: [id])
+  preferredStoreId String?
+  preferredStore   Store?                 @relation(fields: [preferredStoreId], references: [id])
+  addresses        Address[]
+  orders           Order[]
+  carts            Cart[]
+  wishlists        Wishlist[]
+  comparisons      ComparisonList[]
+  repairs          RepairAppointment[]
+  reviews          Review[]
+  builderAccount   BuilderAccount?
+}
+
+model Address {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  label      String?
+  line1      String
+  line2      String?
+  city       String
+  state      String
+  zip        String
+  isDefault  Boolean  @default(false)
+}
+
+model Store {
+  id          String          @id @default(cuid())
+  slug        String          @unique
+  name        String
+  city        String
+  state       String
+  address     String
+  zip         String
+  phone       String
+  lat         Float
+  lng         Float
+  hours       StoreHours[]
+  inventory   StoreInventory[]
+  customers   Customer[]
+  deliveries  Delivery[]
+}
+
+model StoreHours {
+  id        String @id @default(cuid())
+  storeId   String
+  store     Store  @relation(fields: [storeId], references: [id])
+  dayOfWeek Int
+  openTime  String
+  closeTime String
+  closed    Boolean @default(false)
+}
+
+model Brand {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  description String?
+  logoUrl     String?
+  products    Product[]
+  rebates     Rebate[]
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  name        String
+  description String?
+  imageUrl    String?
+  parentId    String?
+  parent      Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryTree")
+  products    Product[]
+}
+
+model Product {
+  id            String                 @id @default(cuid())
+  slug          String                 @unique
+  title         String
+  model         String
+  sku           String                 @unique
+  description   String?
+  brandId       String
+  brand         Brand                  @relation(fields: [brandId], references: [id])
+  categoryId    String
+  category      Category               @relation(fields: [categoryId], references: [id])
+  featured      Boolean                @default(false)
+  energyStar    Boolean                @default(false)
+  finish        String?
+  availability  AvailabilityStatus     @default(IN_STOCK)
+  variants      ProductVariant[]
+  specifications ProductSpecification[]
+  images        ProductImage[]
+  documents     ProductDocument[]
+  inventory     Inventory?
+  storeInventory StoreInventory[]
+  prices        Price[]
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+  reviews       Review[]
+  wishlistItems WishlistItem[]
+  comparisonItems ComparisonItem[]
+}
+
+model ProductVariant {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  name      String
+  sku       String  @unique
+  finish    String?
+}
+
+model ProductSpecification {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  label     String
+  value     String
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  url       String
+  alt       String?
+  sortOrder Int     @default(0)
+}
+
+model ProductDocument {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  title     String
+  url       String
+}
+
+model Inventory {
+  id        String  @id @default(cuid())
+  productId String  @unique
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int     @default(0)
+}
+
+model StoreInventory {
+  id        String  @id @default(cuid())
+  storeId   String
+  store     Store   @relation(fields: [storeId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int     @default(0)
+
+  @@unique([storeId, productId])
+}
+
+model Price {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  amount    Float
+  saleAmount Float?
+  currency  String   @default("USD")
+  startsAt  DateTime?
+  endsAt    DateTime?
+}
+
+model Promotion {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String?
+  imageUrl    String?
+  href        String?
+  startsAt    DateTime?
+  endsAt      DateTime?
+  active      Boolean  @default(true)
+}
+
+model Rebate {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  brandId     String?
+  brand       Brand?   @relation(fields: [brandId], references: [id])
+  amount      Float?
+  formUrl     String?
+  expiresAt   DateTime?
+}
+
+model Cart {
+  id         String     @id @default(cuid())
+  customerId String?
+  customer   Customer?  @relation(fields: [customerId], references: [id])
+  sessionId  String?
+  items      CartItem[]
+  updatedAt  DateTime   @updatedAt
+  createdAt  DateTime   @default(now())
+}
+
+model CartItem {
+  id              String  @id @default(cuid())
+  cartId          String
+  cart            Cart    @relation(fields: [cartId], references: [id])
+  productId       String
+  product         Product @relation(fields: [productId], references: [id])
+  quantity        Int     @default(1)
+  addInstallation Boolean @default(false)
+  addHaulAway     Boolean @default(false)
+  addProtection   Boolean @default(false)
+}
+
+model Order {
+  id             String      @id @default(cuid())
+  orderNumber    String      @unique
+  customerId     String?
+  customer       Customer?   @relation(fields: [customerId], references: [id])
+  status         OrderStatus @default(PENDING)
+  subtotal       Float
+  tax            Float       @default(0)
+  deliveryFee    Float       @default(0)
+  total          Float
+  items          OrderItem[]
+  payment        Payment?
+  delivery       Delivery?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Float
+  title     String
+}
+
+model Payment {
+  id        String   @id @default(cuid())
+  orderId   String   @unique
+  order     Order    @relation(fields: [orderId], references: [id])
+  provider  String   @default("stripe")
+  amount    Float
+  status    String
+  createdAt DateTime @default(now())
+}
+
+model Delivery {
+  id            String   @id @default(cuid())
+  orderId       String   @unique
+  order         Order    @relation(fields: [orderId], references: [id])
+  storeId       String?
+  store         Store?   @relation(fields: [storeId], references: [id])
+  method        String
+  scheduledDate DateTime?
+  status        String
+  trackingCode  String?
+}
+
+model InstallationService {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+}
+
+model HaulAwayService {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+}
+
+model ProtectionPlan {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  termMonths  Int
+  price       Float
+}
+
+model RepairAppointment {
+  id           String            @id @default(cuid())
+  customerId   String?
+  customer     Customer?         @relation(fields: [customerId], references: [id])
+  technicianId String?
+  technician   Technician?       @relation(fields: [technicianId], references: [id])
+  status       RepairStatus      @default(REQUESTED)
+  zip          String
+  scheduledAt  DateTime?
+  timeWindow   String?
+  notes        String?
+  diagnosticFee Float            @default(89)
+  appliance    RepairAppliance?
+  issues       RepairIssue[]
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+}
+
+model RepairAppliance {
+  id            String            @id @default(cuid())
+  appointmentId String            @unique
+  appointment   RepairAppointment @relation(fields: [appointmentId], references: [id])
+  type          String
+  brand         String
+  model         String?
+}
+
+model RepairIssue {
+  id            String            @id @default(cuid())
+  appointmentId String
+  appointment   RepairAppointment @relation(fields: [appointmentId], references: [id])
+  symptom       String
+  description   String?
+}
+
+model Technician {
+  id           String               @id @default(cuid())
+  userId       String               @unique
+  user         User                 @relation(fields: [userId], references: [id])
+  active       Boolean              @default(true)
+  appointments RepairAppointment[]
+  schedules    TechnicianSchedule[]
+}
+
+model TechnicianSchedule {
+  id           String     @id @default(cuid())
+  technicianId String
+  technician   Technician @relation(fields: [technicianId], references: [id])
+  date         DateTime
+  startTime    String
+  endTime      String
+  available    Boolean    @default(true)
+}
+
+model ServiceArea {
+  id   String @id @default(cuid())
+  zip  String @unique
+  city String
+  state String
+}
+
+model Review {
+  id         String    @id @default(cuid())
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  productId  String?
+  product    Product?  @relation(fields: [productId], references: [id])
+  authorName String
+  rating     Int
+  text       String
+  source     String?
+  verified   Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+}
+
+model Wishlist {
+  id         String         @id @default(cuid())
+  customerId String
+  customer   Customer       @relation(fields: [customerId], references: [id])
+  items      WishlistItem[]
+}
+
+model WishlistItem {
+  id         String   @id @default(cuid())
+  wishlistId String
+  wishlist   Wishlist @relation(fields: [wishlistId], references: [id])
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+
+  @@unique([wishlistId, productId])
+}
+
+model ComparisonList {
+  id         String           @id @default(cuid())
+  customerId String?
+  customer   Customer?        @relation(fields: [customerId], references: [id])
+  sessionId  String?
+  items      ComparisonItem[]
+}
+
+model ComparisonItem {
+  id         String         @id @default(cuid())
+  listId     String
+  list       ComparisonList @relation(fields: [listId], references: [id])
+  productId  String
+  product    Product        @relation(fields: [productId], references: [id])
+
+  @@unique([listId, productId])
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  firstName String?
+  zip       String?
+  createdAt DateTime @default(now())
+}
+
+model BuilderAccount {
+  id         String    @id @default(cuid())
+  customerId String    @unique
+  customer   Customer  @relation(fields: [customerId], references: [id])
+  company    String
+  approved   Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+}
+
+model CmsBanner {
+  id        String   @id @default(cuid())
+  title     String
+  text      String?
+  cta       String?
+  href      String?
+  imageUrl  String
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+}
+
+model CmsNav {
+  id        String   @id @default(cuid())
+  label     String
+  href      String
+  parentId  String?
+  sortOrder Int      @default(0)
+  payload   Json?
+}
