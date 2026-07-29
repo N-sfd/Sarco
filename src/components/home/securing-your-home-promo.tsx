@@ -4,13 +4,13 @@ import { siteImages } from "@/data/site-images";
 export function SecuringYourHomePromo() {
   return (
     <SplitPromoSection
-      title="Protect Your Investment: Smart Monitoring & Home Protection"
-      description="Guard against costly leaks and power surges with smart-home monitoring, leak detection, and extended protection plans."
+      title="Securing Your Home"
+      description="Grant yourself peace of mind against leaks, surges, and unexpected repairs with smart monitoring and extended protection."
       cta="Learn More"
-      href="/smart-home"
+      href="/services/protection-plans"
       image={siteImages.promoSmartHome}
-      imagePosition="left"
-      background="white"
+      imagePosition="right"
+      background="lightBlue"
     />
   );
 }

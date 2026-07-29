@@ -4,13 +4,13 @@ import { siteImages } from "@/data/site-images";
 export function BuildersPromo() {
   return (
     <SplitPromoSection
-      title="Commercial & Trade Accounts: Preferred Pricing & Dedicated Support"
-      description="Tailored appliance packages, volume pricing, scheduled project deliveries, and dedicated account management for builders and contractors."
-      cta="Open a Trade Account"
-      href="/builders/trade-account"
+      title="Builders & Contractor Sales"
+      description="Turning that dream kitchen into a reality doesn't have to be so hard. We work with builders, contractors and designers to make appliance selection a hassle-free experience."
+      cta="Learn More"
+      href="/builders"
       image={siteImages.promoBuilders}
       imagePosition="left"
-      background="lightBlue"
+      background="skin"
     />
   );
 }

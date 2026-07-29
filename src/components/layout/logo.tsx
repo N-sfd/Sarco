@@ -76,14 +76,6 @@ export function Logo({
         )}
       >
         SARCO
-        <sup
-          className={cn(
-            "ml-0.5 text-[0.28em] font-bold tracking-normal",
-            light ? "text-white/70" : "text-[#10283F]/60",
-          )}
-        >
-          TM
-        </sup>
       </span>
     </Link>
   );

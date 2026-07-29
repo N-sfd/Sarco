@@ -37,11 +37,11 @@ export const siteImages = {
   promoLaundry: "/images/blog-2.jpg",
   promoKitchenPackages: "/images/package-1.jpg",
   promoGrills: "/images/package-3.jpg",
-  promoRepair: "/images/before-fridge.jpg",
+  promoRepair: "/images/promo-repair-technician.jpg",
   promoBuilders: "/images/builders.jpg",
   promoFinance: "/images/promo-finance.jpg",
   promoSales: "/images/promo-bundle.jpg",
-  promoSmartHome: "/images/hero-appliances.jpg",
+  promoSmartHome: "/images/promo-smart-protection.jpg",
 } as const;
 
 export type SiteImageKey = keyof typeof siteImages;
@@ -73,9 +73,7 @@ const featuredProductImages: Record<string, string> = {
 export function checkForDuplicateImages(
   images: Record<string, string> = { ...siteImages, ...featuredProductImages },
   allowedDuplicates: [string, string][] = [
-    // Only one real grill photo exists in the asset library — the small
-    // "Explore More Categories" card and the large Grills promo banner both
-    // need it. Needs distinct photography to fully resolve.
+    // Only one primary grill photo — category tile and Outdoor Living promo share it.
     ["categoryGrills", "promoGrills"],
     // Dishwasher category tile intentionally mirrors the primary product photo
     // until a distinct lifestyle/category asset is available.

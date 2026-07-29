@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { imageFromLeft, imageFromRight, useRetailMotion } from "@/lib/motion";
 
-type Background = "lightBlue" | "white";
+type Background = "lightBlue" | "skin" | "white";
 
 type Props = {
   title: string;
@@ -21,14 +21,14 @@ type Props = {
 
 const bgMap: Record<Background, string> = {
   lightBlue: "bg-[#DCE9F3]",
+  skin: "bg-[#FBF3EE]",
   white: "bg-white",
 };
 
-// image-right -> bottom-left rounded; image-left -> bottom-right rounded.
-// 28px below 640px, 40px 640-899px, 72px at 900px+.
-const cornerClass = {
-  left: "rounded-bl-none rounded-br-[28px] sm:rounded-br-[40px] min-[900px]:rounded-br-[72px]",
-  right: "rounded-br-none rounded-bl-[28px] sm:rounded-bl-[40px] min-[900px]:rounded-bl-[72px]",
+// Image sits in front; one large rounded corner toward the text box.
+const imageCornerClass = {
+  left: "rounded-br-[28px] sm:rounded-br-[40px] min-[900px]:rounded-br-[72px]",
+  right: "rounded-bl-[28px] sm:rounded-bl-[40px] min-[900px]:rounded-bl-[72px]",
 };
 
 export function SplitPromoSection({
@@ -42,83 +42,105 @@ export function SplitPromoSection({
 }: Props) {
   const { shouldReduceMotion } = useRetailMotion();
   const variant = imagePosition === "left" ? imageFromLeft : imageFromRight;
+  const imageOnRight = imagePosition === "right";
 
-  const textPanel = (
-    <div className={cn("flex items-center", bgMap[background])}>
-      <div
-        className={cn(
-          "w-full max-w-[470px] px-7 py-[42px] min-[900px]:px-14 min-[900px]:py-16",
-          imagePosition === "left" ? "min-[900px]:mr-auto" : "min-[900px]:ml-auto",
-        )}
-      >
-        <h2 className="text-[28px] font-bold text-navy md:text-[32px]">{title}</h2>
-        <p className="mt-4 text-[15px] leading-[1.7] text-muted md:text-[16px]">{description}</p>
-        <Link
-          href={href}
-          className="btn btn-primary mt-6 w-full min-h-11 px-[22px] text-[14px] sm:w-fit"
-        >
-          {cta}
-        </Link>
-      </div>
-    </div>
-  );
-
-  const imagePanel = (
-    <div
-      className={cn(
-        "relative min-h-[320px] w-full overflow-hidden min-[900px]:min-h-[430px]",
-        cornerClass[imagePosition],
-      )}
-    >
-      {shouldReduceMotion ? (
-        <Image
-          src={image}
-          alt=""
-          fill
-          className="object-cover object-center"
-          sizes="(max-width: 899px) 100vw, 62vw"
-        />
-      ) : (
-        <motion.div
-          className="absolute inset-[-3%]"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={variant}
+  return (
+    <section className="mb-10 w-full bg-transparent md:mb-14">
+      {/* Mobile: stacked */}
+      <div className="min-[900px]:hidden">
+        <div className={cn("px-7 py-7", bgMap[background])}>
+          <h2 className="text-[22px] font-bold text-navy">{title}</h2>
+          <p className="mt-3 text-[13px] leading-[1.65] text-muted">{description}</p>
+          <Link
+            href={href}
+            className="btn btn-primary mt-5 w-full min-h-10 px-5 text-[13px] sm:w-fit"
+          >
+            {cta}
+          </Link>
+        </div>
+        <div
+          className={cn(
+            "relative mt-3 h-[240px] w-full overflow-hidden",
+            imageCornerClass[imagePosition],
+          )}
         >
           <Image
             src={image}
             alt=""
             fill
             className="object-cover object-center"
-            sizes="(max-width: 899px) 100vw, 62vw"
+            sizes="100vw"
           />
-        </motion.div>
-      )}
-    </div>
-  );
+        </div>
+      </div>
 
-  return (
-    <section className="w-full overflow-hidden bg-white">
-      <div
-        className={cn(
-          "grid w-full grid-cols-1 items-stretch",
-          imagePosition === "left"
-            ? "min-[900px]:grid-cols-[62%_38%]"
-            : "min-[900px]:grid-cols-[38%_62%]",
-        )}
-      >
-        {imagePosition === "left" ? (
-          <>
-            {imagePanel}
-            {textPanel}
-          </>
-        ) : (
-          <>
-            {textPanel}
-            {imagePanel}
-          </>
-        )}
+      {/* Desktop: text box behind, image in front (shifted slightly down) */}
+      <div className="relative hidden min-[900px]:block">
+        {/* Backend text box — taller so it peeks above & below the image */}
+        <div
+          className={cn(
+            "relative flex min-h-[290px] w-[60%] items-center",
+            bgMap[background],
+            imageOnRight ? "mr-auto" : "ml-auto",
+          )}
+        >
+          <div
+            className={cn(
+              "w-full py-8",
+              imageOnRight
+                ? "px-10 min-[1100px]:px-14"
+                : // Clear image overlap when image is on the left
+                  "pl-[30%] pr-10 min-[1100px]:pl-[32%] min-[1100px]:pr-14",
+            )}
+          >
+            <h2 className="text-[22px] font-bold text-navy md:text-[26px]">{title}</h2>
+            <p className="mt-3 max-w-[420px] text-[13px] leading-[1.65] text-muted md:text-[14px]">
+              {description}
+            </p>
+            <Link
+              href={href}
+              className="btn btn-primary mt-5 w-fit min-h-10 px-5 text-[13px]"
+            >
+              {cta}
+            </Link>
+          </div>
+        </div>
+
+        {/* Frontend image — extends a little past the text box bottom */}
+        <div
+          className={cn(
+            "absolute z-10 overflow-hidden",
+            "top-[36px] -bottom-4 w-[54%]",
+            imageOnRight ? "right-0" : "left-0",
+            imageCornerClass[imagePosition],
+          )}
+        >
+          {shouldReduceMotion ? (
+            <Image
+              src={image}
+              alt=""
+              fill
+              className="object-cover object-center"
+              sizes="54vw"
+            />
+          ) : (
+            <motion.div
+              className="absolute inset-[-3%]"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={variant}
+            >
+              <Image
+                src={image}
+                alt=""
+                fill
+                className="object-cover object-center"
+                sizes="54vw"
+              />
+            </motion.div>
+          )}
+        </div>
       </div>
     </section>
   );
