@@ -21,7 +21,7 @@ export function StubPage({
       <h1 className="text-2xl font-bold text-navy md:text-3xl">{title}</h1>
       <p className="mt-3 max-w-2xl text-sm text-muted md:text-base">
         {description ??
-          `This ${title.toLowerCase()} page is part of the ${siteConfig.name} catalog experience and will be expanded in the next development phase. Navigation, search, store selection, and cart remain fully available.`}
+          `This ${title.toLowerCase()} page is part of the ${siteConfig.name} catalog experience and will be expanded in the next development phase. Navigation, search, and cart remain fully available.`}
       </p>
       <div className="mt-6 flex flex-wrap gap-3">
         <Link href="/" className="btn btn-primary">

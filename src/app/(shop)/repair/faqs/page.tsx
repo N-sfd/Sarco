@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/page-container";
+import { JsonLd } from "@/components/ui/json-ld";
+import { faqSchema } from "@/lib/structured-data";
 import { faqs } from "@/lib/data";
 
 export const metadata: Metadata = { title: "Repair FAQs" };
@@ -8,6 +10,7 @@ export const metadata: Metadata = { title: "Repair FAQs" };
 export default function RepairFaqsPage() {
   return (
     <PageContainer className="py-8">
+      <JsonLd data={faqSchema(faqs)} />
       <nav className="mb-4 text-xs text-muted">
         <Link href="/" className="hover:text-accent">
           Home

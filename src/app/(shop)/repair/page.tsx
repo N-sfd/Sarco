@@ -4,6 +4,8 @@ import { ArrowRight, Phone } from "lucide-react";
 import { PageContainer } from "@/components/layout/page-container";
 import { services, whyChooseUs } from "@/lib/data";
 import { siteConfig } from "@/config/site";
+import { JsonLd } from "@/components/ui/json-ld";
+import { serviceSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = { title: "Repair & Services" };
 
@@ -19,6 +21,14 @@ const subPages = [
 export default function RepairHubPage() {
   return (
     <PageContainer className="py-8">
+      <JsonLd
+        data={serviceSchema({
+          name: "Appliance Repair",
+          description:
+            "Factory-authorized appliance diagnosis and repair with a 90-day parts and labor guarantee.",
+          areaServed: ["Hagerstown, MD", "Maryland", "Virginia", "West Virginia"],
+        })}
+      />
       <nav className="mb-4 text-xs text-muted">
         <Link href="/" className="hover:text-accent">
           Home

@@ -46,8 +46,7 @@ export default function TermsPage() {
             We make every effort to display accurate pricing, product descriptions, and availability. However,
             errors may occasionally occur. We reserve the right to correct any pricing or typographical errors and
             to cancel or refuse any order arising from such an error, even after an order has been submitted or
-            confirmed. Product availability, specifications, and images are subject to change without notice and
-            may vary by store location.
+            confirmed. Product availability, specifications, and images are subject to change without notice.
           </p>
         </section>
 
@@ -92,9 +91,8 @@ export default function TermsPage() {
         <section>
           <h2 className="text-base font-bold text-navy">Governing Law</h2>
           <p className="mt-2">
-            These Terms shall be governed by and construed in accordance with the laws of the state in which the
-            applicable {siteConfig.name} store location is situated, without regard to its conflict of law
-            provisions.
+            These Terms shall be governed by and construed in accordance with the laws of the State of Maryland,
+            without regard to its conflict of law provisions.
           </p>
         </section>
 

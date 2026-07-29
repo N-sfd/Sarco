@@ -1,37 +1,51 @@
 import { PrismaClient, AvailabilityStatus } from "@prisma/client";
 import { products, brands } from "../src/data/products";
-import { stores } from "../src/data/stores";
 import { promotions, reviews, repairServices } from "../src/data/homepage";
+import { businessConfig } from "../src/config/business";
 
 const prisma = new PrismaClient();
+
+// Sarco has no public retail locations — this seeds a single internal
+// dispatch record (delivery/installation/repair operations base), not a
+// customer-facing store.
+const operationsBase = {
+  slug: "hagerstown-operations",
+  name: businessConfig.primaryContact.label,
+  city: "Hagerstown",
+  state: "MD",
+  address: businessConfig.primaryContact.addressLines[0],
+  zip: "21740",
+  phone: businessConfig.primaryContact.phoneDisplay,
+  lat: 39.6418,
+  lng: -77.72,
+};
+
+const serviceAreaZips = [
+  { zip: "21740", city: "Hagerstown", state: "MD" },
+  { zip: "21701", city: "Frederick", state: "MD" },
+  { zip: "25401", city: "Martinsburg", state: "WV" },
+  { zip: "22601", city: "Winchester", state: "VA" },
+  { zip: "21742", city: "Hagerstown", state: "MD" },
+  { zip: "22602", city: "Winchester", state: "VA" },
+];
 
 async function main() {
   console.log("Seeding Sarco Appliances…");
 
-  for (const store of stores) {
-    await prisma.store.upsert({
-      where: { slug: store.id },
-      update: {},
-      create: {
-        slug: store.id,
-        name: store.name,
-        city: store.city,
-        state: store.state,
-        address: store.address,
-        zip: store.zip,
-        phone: store.phone,
-        lat: store.lat,
-        lng: store.lng,
-        hours: {
-          create: [1, 2, 3, 4, 5].map((d) => ({
-            dayOfWeek: d,
-            openTime: "09:00",
-            closeTime: "19:00",
-          })),
-        },
+  await prisma.store.upsert({
+    where: { slug: operationsBase.slug },
+    update: {},
+    create: {
+      ...operationsBase,
+      hours: {
+        create: [1, 2, 3, 4, 5].map((d) => ({
+          dayOfWeek: d,
+          openTime: "09:00",
+          closeTime: "17:00",
+        })),
       },
-    });
-  }
+    },
+  });
 
   for (const name of brands) {
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -177,15 +191,11 @@ async function main() {
     });
   }
 
-  for (const zip of ["21740", "21701", "25401", "22601", "21742", "22602"]) {
+  for (const area of serviceAreaZips) {
     await prisma.serviceArea.upsert({
-      where: { zip },
+      where: { zip: area.zip },
       update: {},
-      create: {
-        zip,
-        city: stores.find((s) => s.zip === zip)?.city ?? "Service Area",
-        state: stores.find((s) => s.zip === zip)?.state ?? "MD",
-      },
+      create: area,
     });
   }
 
@@ -210,7 +220,7 @@ async function main() {
     skipDuplicates: true,
   });
 
-  console.log(`Seeded ${products.length} products, ${brands.length} brands, ${stores.length} stores.`);
+  console.log(`Seeded ${products.length} products, ${brands.length} brands, 1 operations base.`);
   console.log(`Repair service types documented: ${repairServices.length}`);
 }
 

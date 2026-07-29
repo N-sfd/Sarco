@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { Calculator } from "lucide-react";
-import { formatCurrency } from "@/lib/utils";
+import { estimateMonthlyPayment, formatCurrency } from "@/lib/utils";
 
 export function FinancingCalculator() {
   const [amount, setAmount] = useState(2500);
   const [months, setMonths] = useState(12);
-  const monthly = amount / months;
+  const monthly = estimateMonthlyPayment(amount, months);
 
   return (
     <div className="border border-border bg-white p-6 sm:p-8">

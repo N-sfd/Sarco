@@ -1,21 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/page-container";
+import { siteImages } from "@/data/site-images";
 
+// "Securing Your Home" (smart-home protection) already has its own dedicated
+// promo section further down the homepage — this grid only carries topics
+// that don't appear elsewhere, so no two sections repeat the same offer.
 const promos = [
   {
     title: "Buy Now, Pay Later",
     text: "Flexible financing with approved credit on qualifying appliances.",
     href: "/financing",
     cta: "View Financing",
-    image: "/images/promo-finance.jpg",
+    image: siteImages.promoFinance,
   },
   {
-    title: "Protect & Connect Your Home",
-    text: "Appliance protection, leak detection, and connected-home packages.",
-    href: "/smart-home",
-    cta: "Learn More",
-    image: "/images/hero-appliances.jpg",
+    title: "Save Big on Top Appliance Brands",
+    text: "Explore limited-time sales and manufacturer rebates on refrigerators, washers, ranges, and more.",
+    href: "/sales",
+    cta: "Shop Sales",
+    image: siteImages.promoSales,
   },
 ];
 

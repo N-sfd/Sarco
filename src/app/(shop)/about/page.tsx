@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MapPin, Phone, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { PageContainer } from "@/components/layout/page-container";
 import { siteConfig } from "@/config/site";
-import { stores } from "@/data/stores";
 import { whyChooseUs } from "@/lib/data";
 
 export const metadata: Metadata = { title: "About Us" };
@@ -21,11 +20,10 @@ export default function AboutPage() {
 
       <h1 className="text-2xl font-bold text-navy md:text-3xl">About {siteConfig.name}</h1>
       <p className="mt-3 max-w-3xl text-sm text-muted md:text-base">
-        {siteConfig.name} has been the region&apos;s trusted, locally-owned appliance retailer since 2001. What
-        started as a single storefront has grown into four full-service showrooms across Maryland, West Virginia,
-        and Virginia — but we&apos;ve never lost the neighborhood-dealer approach: real advice from people who
-        actually use this equipment, straightforward pricing, and a service department that stands behind
-        everything we sell.
+        {siteConfig.name} is a locally-owned online appliance retailer serving Hagerstown, Maryland and the
+        surrounding region since 2001. We sell major appliances online with fast delivery, professional
+        installation, haul-away, and factory-trained repair — no walk-in showroom, just straightforward pricing
+        and a service department that stands behind everything we sell.
       </p>
 
       <div className="mt-6 flex flex-wrap gap-3">
@@ -33,7 +31,7 @@ export default function AboutPage() {
           Read Our Story
         </Link>
         <Link href="/locations" className="btn btn-outline">
-          View Locations
+          Service &amp; Operations
         </Link>
         <Link href="/careers" className="btn btn-outline">
           Careers
@@ -82,42 +80,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Store locations */}
-      <section className="mt-12">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-navy">Our Locations</h2>
-          <Link href="/locations" className="text-xs font-semibold text-accent hover:underline">
-            View all locations
-          </Link>
-        </div>
-        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {stores.map((store) => (
-            <div key={store.id} className="border border-border bg-white p-4">
-              <p className="text-sm font-bold text-navy">
-                {store.city}, {store.state}
-              </p>
-              <div className="mt-2 flex items-start gap-2 text-xs text-muted">
-                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                <span>
-                  {store.address}
-                  <br />
-                  {store.city}, {store.state} {store.zip}
-                </span>
-              </div>
-              <div className="mt-2 flex items-center gap-2 text-xs text-muted">
-                <Phone className="h-3.5 w-3.5 shrink-0" />
-                <a href={`tel:${store.phone.replace(/[^\d+]/g, "")}`} className="hover:text-accent">
-                  {store.phone}
-                </a>
-              </div>
-              <p className="mt-2 text-xs text-muted">{store.hours}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <div className="mt-12 border border-border bg-navy p-8 text-center">
-        <h2 className="text-xl font-bold text-white">Have a question before you visit?</h2>
+        <h2 className="text-xl font-bold text-white">Have a question before you buy?</h2>
         <p className="mt-2 text-sm text-white/70">
           Call {siteConfig.phone} or reach out online — our team is happy to help you find the right appliance.
         </p>

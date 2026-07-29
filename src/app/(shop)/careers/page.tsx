@@ -20,10 +20,10 @@ const openRoles = [
     desc: "Diagnose and repair refrigerators, washers, dryers, ranges, and dishwashers in customers' homes. Factory training provided for the right candidate; EPA 608 certification a plus.",
   },
   {
-    title: "Sales Associate",
+    title: "Online Sales Associate",
     type: "Full-Time / Part-Time",
     icon: Users,
-    desc: "Help customers find the right refrigerator, laundry pair, or full kitchen package on our showroom floor. Product training provided — we're looking for people who genuinely like helping people.",
+    desc: "Help customers find the right refrigerator, laundry pair, or full kitchen package by phone, chat, and email. Product training provided — we're looking for people who genuinely like helping people.",
   },
   {
     title: "Warehouse Associate",
@@ -35,7 +35,7 @@ const openRoles = [
 
 const benefits = [
   { title: "Competitive Pay", desc: "Hourly and commission structures that reward hard work, plus regular performance reviews.", icon: BadgeDollarSign },
-  { title: "Room to Grow", desc: "Most of our store managers and lead technicians started on the sales floor or in the warehouse.", icon: TrendingUp },
+  { title: "Room to Grow", desc: "Most of our team leads and lead technicians started in sales or the warehouse.", icon: TrendingUp },
   { title: "Real Team Culture", desc: "Small enough that leadership knows your name, established enough to offer real stability.", icon: HeartHandshake },
 ];
 
@@ -52,10 +52,10 @@ export default function CareersPage() {
 
       <h1 className="text-2xl font-bold text-navy md:text-3xl">Careers at {siteConfig.name}</h1>
       <p className="mt-3 max-w-3xl text-sm text-muted md:text-base">
-        We&apos;re a locally-owned appliance retailer with four showrooms across Maryland, West Virginia, and
-        Virginia — and we&apos;re always looking for people who take pride in doing a job right. Whether
-        you&apos;re on the sales floor, behind the wheel of a delivery truck, or diagnosing a stubborn dryer, your
-        work directly shows up in how our customers feel about us.
+        We&apos;re a locally-owned online appliance retailer serving the Hagerstown, Maryland region — and
+        we&apos;re always looking for people who take pride in doing a job right. Whether you&apos;re on the
+        phone with a customer, behind the wheel of a delivery truck, or diagnosing a stubborn dryer, your work
+        directly shows up in how our customers feel about us.
       </p>
 
       {/* Benefits */}
@@ -103,8 +103,8 @@ export default function CareersPage() {
       <div className="mt-12 border border-border bg-navy p-8 text-center">
         <h2 className="text-xl font-bold text-white">Don&apos;t See the Right Role?</h2>
         <p className="mt-2 text-sm text-white/70">
-          Send us your resume and tell us where you&apos;d like to work — we review general applications for all
-          four store locations on an ongoing basis.
+          Send us your resume and tell us what you&apos;re interested in — we review general applications on
+          an ongoing basis.
         </p>
         <a
           href={`mailto:${siteConfig.email}?subject=${encodeURIComponent("General Application")}`}

@@ -32,7 +32,7 @@ export default function BrandsPage() {
               className="flex h-28 flex-col items-center justify-center gap-1 border border-border bg-white px-4 text-center transition hover:border-navy"
             >
               <span className="font-bold text-navy">{name}</span>
-              <span className="text-xs text-muted">{count > 0 ? `${count} models online` : "In-store selection"}</span>
+              <span className="text-xs text-muted">{count > 0 ? `${count} models online` : "Call for selection"}</span>
             </Link>
           );
         })}

@@ -1,10 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Clock, MapPin, Navigation, Phone } from "lucide-react";
+import { Mail, MapPin, Navigation, Phone } from "lucide-react";
 import { PageContainer } from "@/components/layout/page-container";
-import { stores } from "@/data/stores";
+import { businessConfig } from "@/config/business";
 
-export const metadata: Metadata = { title: "Store Locations" };
+export const metadata: Metadata = { title: "Service & Operations" };
+
+const offices = [
+  {
+    label: "Sarco Service & Operations",
+    contact: businessConfig.primaryContact,
+    note: "Delivery, installation, and repair dispatch for the Hagerstown, MD region.",
+  },
+  {
+    label: businessConfig.ashburnOffice.label,
+    contact: businessConfig.ashburnOffice,
+    note: "Business administration and builder/contractor account management.",
+  },
+];
 
 export default function LocationsPage() {
   return (
@@ -14,46 +27,49 @@ export default function LocationsPage() {
           Home
         </Link>
         <span className="mx-1">/</span>
-        <span className="text-navy">Locations</span>
+        <span className="text-navy">Service &amp; Operations</span>
       </nav>
 
-      <h1 className="text-2xl font-bold text-navy md:text-3xl">Store Locations</h1>
+      <h1 className="text-2xl font-bold text-navy md:text-3xl">Sarco Service &amp; Operations</h1>
       <p className="mt-3 max-w-2xl text-sm text-muted md:text-base">
-        Four full-service showrooms across Maryland, West Virginia, and Virginia — stop in to see appliances in
-        person, talk to a real salesperson, and schedule delivery or repair service.
+        Sarco Appliances is an online sales and scheduled service business — we do not operate a public
+        walk-in showroom at this time. Appointments and service visits are scheduled in advance from the
+        locations below.
       </p>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
-        {stores.map((store) => {
-          const fullAddress = `${store.address}, ${store.city}, ${store.state} ${store.zip}`;
+        {offices.map((office) => {
+          const fullAddress = office.contact.addressLines.join(", ");
           const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
-          const telHref = `tel:${store.phone.replace(/[^\d+]/g, "")}`;
 
           return (
-            <div key={store.id} className="border border-border bg-white p-6">
-              <h2 className="text-lg font-bold text-navy">
-                {store.city}, {store.state}
-              </h2>
+            <div key={office.label} className="border border-border bg-white p-6">
+              <h2 className="text-lg font-bold text-navy">{office.label}</h2>
+              <p className="mt-1 text-sm text-muted">{office.note}</p>
 
               <div className="mt-4 flex items-start gap-2.5 text-sm text-muted">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-navy" />
                 <span>
-                  {store.address}
-                  <br />
-                  {store.city}, {store.state} {store.zip}
+                  {office.contact.addressLines.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
                 </span>
               </div>
 
               <div className="mt-2.5 flex items-center gap-2.5 text-sm text-muted">
                 <Phone className="h-4 w-4 shrink-0 text-navy" />
-                <a href={telHref} className="hover:text-accent">
-                  {store.phone}
+                <a href={office.contact.phoneHref} className="hover:text-accent">
+                  {office.contact.phoneDisplay}
                 </a>
               </div>
 
-              <div className="mt-2.5 flex items-start gap-2.5 text-sm text-muted">
-                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-navy" />
-                <span>{store.hours}</span>
+              <div className="mt-2.5 flex items-center gap-2.5 text-sm text-muted">
+                <Mail className="h-4 w-4 shrink-0 text-navy" />
+                <a href={office.contact.emailHref} className="hover:text-accent">
+                  {office.contact.email}
+                </a>
               </div>
 
               <div className="mt-5 flex flex-wrap gap-3">
@@ -61,8 +77,8 @@ export default function LocationsPage() {
                   <Navigation className="h-3.5 w-3.5" />
                   Get Directions
                 </a>
-                <a href={telHref} className="btn btn-primary btn-sm">
-                  Call Store
+                <a href={office.contact.phoneHref} className="btn btn-primary btn-sm">
+                  Call
                 </a>
               </div>
             </div>
@@ -71,13 +87,18 @@ export default function LocationsPage() {
       </div>
 
       <div className="mt-10 border border-border bg-surface p-6 text-center">
-        <p className="text-sm font-bold text-navy">Not sure which store has what you need?</p>
+        <p className="text-sm font-bold text-navy">Ready to schedule delivery, installation, or repair?</p>
         <p className="mt-1 text-sm text-muted">
-          Give us a call or send a message — we can check availability across all four locations for you.
+          Check whether we service your ZIP code, then book online in minutes.
         </p>
-        <Link href="/contact" className="btn btn-primary mt-4">
-          Contact Us
-        </Link>
+        <div className="mt-4 flex flex-wrap justify-center gap-3">
+          <Link href="/repair/schedule" className="btn btn-primary">
+            Schedule Repair
+          </Link>
+          <Link href="/contact" className="btn btn-outline">
+            Contact Us
+          </Link>
+        </div>
       </div>
     </PageContainer>
   );

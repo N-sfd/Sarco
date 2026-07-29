@@ -20,8 +20,15 @@ export function FeaturedProducts() {
     <section className="border-b border-border bg-white py-[72px]">
       <PageContainer>
         <div className="mb-10 flex items-end justify-between gap-4">
-          <h2 className="text-[28px] font-bold text-navy md:text-[34px]">Featured Products</h2>
-          <div className="flex items-center gap-3">
+          <div className="max-w-2xl">
+            <h2 className="text-[28px] font-bold text-navy md:text-[34px]">
+              Top Deals & Best Sellers
+            </h2>
+            <p className="mt-2 text-[15px] leading-relaxed text-muted md:text-[16px]">
+              Explore our highest-rated major appliances featured at special promotional prices.
+            </p>
+          </div>
+          <div className="flex shrink-0 items-center gap-3">
             <Link
               href="/in-stock"
               className="hidden text-[14px] font-semibold text-navy hover:text-accent hover:underline sm:inline"

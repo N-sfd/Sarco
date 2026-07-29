@@ -47,7 +47,7 @@ export default function RepairBrandsPage() {
       <div className="mt-10 border border-border bg-surface p-6">
         <h2 className="font-bold text-navy">Don&apos;t see your brand?</h2>
         <p className="mt-2 text-sm text-muted">
-          We regularly service additional brands and models beyond what&apos;s sold in our stores.
+          We regularly service additional brands and models beyond what we sell online.
           Schedule an appointment or give us a call and we&apos;ll confirm coverage for your specific
           appliance before dispatching a technician.
         </p>

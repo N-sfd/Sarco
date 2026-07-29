@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ProductCard } from "@/components/catalog/product-card";
 import { PageContainer } from "@/components/layout/page-container";
 import { products } from "@/data/products";
+import { filterProducts, addRecentSearch } from "@/lib/search";
 
 export default function SearchClient() {
   const params = useSearchParams();
@@ -13,18 +14,14 @@ export default function SearchClient() {
   const [query, setQuery] = useState(q);
 
   const results = useMemo(() => {
-    const needle = (query || q).trim().toLowerCase();
+    const needle = (query || q).trim();
     if (!needle) return products.slice(0, 12);
-    return products.filter(
-      (p) =>
-        p.title.toLowerCase().includes(needle) ||
-        p.brand.toLowerCase().includes(needle) ||
-        p.model.toLowerCase().includes(needle) ||
-        p.sku.toLowerCase().includes(needle) ||
-        p.category.toLowerCase().includes(needle) ||
-        p.subcategory.toLowerCase().includes(needle),
-    );
+    return filterProducts(needle);
   }, [query, q]);
+
+  useEffect(() => {
+    if (q) addRecentSearch(q);
+  }, [q]);
 
   return (
     <PageContainer className="py-8">

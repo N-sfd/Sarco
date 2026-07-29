@@ -113,7 +113,7 @@ export default function FinancingPage() {
         <h2 className="text-xl font-bold text-navy md:text-2xl">Apply Now</h2>
         <p className="mt-2 max-w-2xl text-sm text-muted">
           Ready to get started? Submit a quick application below. This is a preview experience — no real
-          credit application is transmitted. For an actual financing application, apply in-store or call{" "}
+          credit application is transmitted. For an actual financing application, call{" "}
           <a href={`tel:${siteConfig.phoneTel}`} className="font-semibold text-navy hover:text-accent">
             {siteConfig.phone}
           </a>

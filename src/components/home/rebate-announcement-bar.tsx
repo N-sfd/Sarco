@@ -5,15 +5,16 @@ import { PageContainer } from "@/components/layout/page-container";
 export function RebateBar() {
   return (
     <div
-      className="h-[42px] text-white"
+      className="min-h-[42px] text-white"
       style={{
         background: "linear-gradient(90deg, #E96A50, #F07A5D)",
       }}
     >
-      <PageContainer className="flex h-full items-center justify-between gap-3 text-[14px]">
-        <p className="truncate font-semibold">
-          Save hundreds with manufacturer rebates from top appliance brands.
+      <PageContainer className="flex min-h-[42px] items-center justify-center gap-3 py-2 text-[14px] sm:justify-between">
+        <p className="hidden font-semibold sm:block">
+          Save Up to $1,000+ with Limited-Time Manufacturer Rebates on Top Brands
         </p>
+        <p className="font-semibold sm:hidden">Save up to $1,000+ with limited-time rebates</p>
         <Link
           href="/rebates"
           className="group inline-flex shrink-0 items-center gap-1.5 font-bold transition-colors duration-200 hover:text-white"

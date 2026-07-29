@@ -54,12 +54,12 @@ export default function OurStoryPage() {
         <section>
           <h2 className="text-lg font-bold text-navy">Growing With Our Communities</h2>
           <p className="mt-2 text-sm leading-relaxed text-muted">
-            Word travels fast when you do right by people. As demand grew across the Cumberland Valley and
-            Shenandoah region, we expanded from our original Hagerstown, Maryland location into Frederick,
-            Martinsburg, and Winchester — four full-service showrooms today, each stocked with the major brands
-            households and builders rely on, and each backed by our own delivery trucks and service vans rather
-            than a subcontracted network. Every store we&apos;ve opened has been staffed by local hires, because we
-            believe the best service comes from people who live in the community they serve.
+            Word travels fast when you do right by people. As demand grew across the Cumberland Valley region, we
+            built out our own delivery, installation, and repair fleet dispatching from Hagerstown, Maryland,
+            rather than relying on a subcontracted network. We moved online early so customers anywhere in our
+            service area could shop the full catalog without needing to visit a showroom — every truck and every
+            technician is still local, because we believe the best service comes from people who live in the
+            community they serve.
           </p>
         </section>
 
@@ -68,9 +68,9 @@ export default function OurStoryPage() {
           <p className="mt-2 text-sm leading-relaxed text-muted">
             Big-box retailers can move volume, but they can&apos;t always give you a straight answer about which
             dryer will actually fit your closet, or send the same technician back if something isn&apos;t right. We
-            can. Our sales floor is staffed by people who&apos;ve sold and serviced these exact machines for years,
-            and our repair techs are factory-certified on the brands we carry. That combination — sales and service
-            under one roof — is what has kept customers coming back to {siteConfig.name} for over two decades.
+            can. Our sales team knows these exact machines, and our repair techs are factory-certified on the
+            brands we carry. That combination — sales and service under one roof — is what has kept customers
+            coming back to {siteConfig.name} for over two decades.
           </p>
         </section>
 
@@ -88,11 +88,11 @@ export default function OurStoryPage() {
       <div className="mt-12 flex flex-wrap gap-3 border border-border bg-surface p-6">
         <div className="flex-1">
           <p className="text-sm font-bold text-navy">Ready to see it for yourself?</p>
-          <p className="mt-1 text-xs text-muted">Visit one of our four showrooms or shop online today.</p>
+          <p className="mt-1 text-xs text-muted">Shop online today — delivery and installation scheduled around you.</p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <Link href="/locations" className="btn btn-outline">
-            Find a Store
+          <Link href="/contact" className="btn btn-outline">
+            Contact Us
           </Link>
           <Link href="/in-stock" className="btn btn-primary">
             Shop In Stock

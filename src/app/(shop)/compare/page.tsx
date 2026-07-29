@@ -22,6 +22,15 @@ const rows: { label: string; render: (p: (typeof products)[number]) => React.Rea
   { label: "Rating", render: (p) => `${p.rating} ★ (${p.reviewCount} reviews)` },
   { label: "Availability", render: (p) => availabilityLabel(p.availability) },
   { label: "Finish", render: (p) => p.finish ?? "—" },
+  { label: "Noise (dBA)", render: (p) => (p.noiseDba != null ? `${p.noiseDba} dBA` : "—") },
+  { label: "Capacity", render: (p) => (p.capacityCuFt != null ? `${p.capacityCuFt} cu. ft.` : "—") },
+  { label: "Wash Cycles", render: (p) => (p.cycleCount != null ? `${p.cycleCount} cycles` : "—") },
+  { label: "Controls", render: (p) => p.controlType ?? "—" },
+  { label: "Type", render: (p) => p.dishwasherType ?? p.subcategory },
+  {
+    label: "Key Features",
+    render: (p) => (p.features && p.features.length > 0 ? p.features.join(", ") : "—"),
+  },
   { label: "Energy Star", render: (p) => (p.energyStar ? "Yes" : "No") },
 ];
 

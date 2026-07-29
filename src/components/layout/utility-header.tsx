@@ -3,15 +3,12 @@
 import Link from "next/link";
 import { Heart, MapPin, Phone, ShoppingCart, User } from "lucide-react";
 import { PageContainer } from "@/components/layout/page-container";
-import { siteConfig } from "@/config/site";
+import { businessConfig } from "@/config/business";
 import { useCart } from "@/stores/cart";
-import { useStorePreference } from "@/stores/store-preference";
 import { useUiStore, useWishlist } from "@/stores/wishlist";
 
 export function UtilityHeader() {
-  const preferredStore = useStorePreference((s) => s.preferredStore);
-  const zipCode = useStorePreference((s) => s.zipCode);
-  const setStoreModalOpen = useUiStore((s) => s.setStoreModalOpen);
+  const setServiceModalOpen = useUiStore((s) => s.setServiceModalOpen);
   const items = useCart((s) => s.items);
   const itemCount = items.reduce((n, i) => n + i.quantity, 0);
   const wishlistCount = useWishlist((s) => s.productIds.length);
@@ -20,30 +17,29 @@ export function UtilityHeader() {
     <div className="header-compact-hide hidden h-12 border-b border-[#E6EAF0] bg-white text-[13px] text-ink nav:block">
       <PageContainer className="flex h-full items-center justify-between gap-8 px-2">
         <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
-          <button
-            type="button"
-            onClick={() => setStoreModalOpen(true)}
-            className="inline-flex items-center gap-[6px] font-semibold text-[#083B82] transition-colors duration-200 hover:text-accent"
-          >
+          <span className="inline-flex items-center gap-[6px] font-semibold text-navy">
             <MapPin className="h-[18px] w-[18px]" strokeWidth={1.75} />
-            My Store
-          </button>
+            Service Area: Hagerstown, MD and surrounding regions
+          </span>
           <button
             type="button"
-            onClick={() => setStoreModalOpen(true)}
-            className="font-semibold text-[#083B82] transition-colors duration-200 hover:text-accent"
+            onClick={() => setServiceModalOpen(true)}
+            className="font-semibold text-[#083B82] underline-offset-2 transition-colors duration-200 hover:text-accent hover:underline"
           >
-            {preferredStore
-              ? preferredStore.name.replace("Sarco Appliances — ", "")
-              : "Select a Store"}
+            Check Service Availability
           </button>
-          <button
-            type="button"
-            onClick={() => setStoreModalOpen(true)}
-            className="font-semibold text-navy underline-offset-2 transition-colors duration-200 hover:text-accent hover:underline"
+          <Link
+            href="/track-delivery"
+            className="font-semibold text-navy transition-colors duration-200 hover:text-accent"
           >
-            {zipCode ? `ZIP ${zipCode}` : "Add ZIP Code"}
-          </button>
+            Track Delivery
+          </Link>
+          <Link
+            href="/repair/schedule"
+            className="font-semibold text-navy transition-colors duration-200 hover:text-accent"
+          >
+            Schedule Repair
+          </Link>
         </div>
 
         <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
@@ -60,16 +56,16 @@ export function UtilityHeader() {
             <Heart className="h-[18px] w-[18px]" strokeWidth={1.75} /> Favorites ({wishlistCount})
           </Link>
           <Link
-            href="/locations"
+            href="/contact"
             className="font-semibold transition-colors duration-200 hover:text-accent"
           >
-            Store Locations
+            Contact
           </Link>
           <a
-            href={`tel:${siteConfig.phoneTel}`}
+            href={businessConfig.primaryContact.phoneHref}
             className="inline-flex items-center gap-[6px] font-semibold text-navy transition-colors duration-200 hover:text-accent"
           >
-            <Phone className="h-[18px] w-[18px]" strokeWidth={1.75} /> {siteConfig.phone}
+            <Phone className="h-[18px] w-[18px]" strokeWidth={1.75} /> {businessConfig.primaryContact.phoneDisplay}
           </a>
           <Link
             href="/cart"

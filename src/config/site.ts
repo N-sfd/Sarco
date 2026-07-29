@@ -3,7 +3,7 @@
 export const siteConfig = {
   name: "Sarco Appliances",
   shortName: "Sarco",
-  tagline: "Appliances, Delivery, Installation & Repair",
+  tagline: "Sales, Delivery, Installation & Repair",
   headerTagline: "Sales • Delivery • Installation • Repair",
   phone: "(240) 576-0397",
   phoneTel: "+12405760397",

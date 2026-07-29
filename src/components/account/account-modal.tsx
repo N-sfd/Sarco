@@ -4,12 +4,13 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, UserRound, LogOut, Package, Truck, BadgeCheck, Bell } from "lucide-react";
 import { useUI } from "@/lib/ui-store";
+import { useDialog } from "@/lib/use-dialog";
 import { products, rebates } from "@/lib/data";
 import { EASE, formatCurrency, getMockDeliveryStatus } from "@/lib/utils";
 
 const mockOrders = [
-  { id: "ABC-10294", product: products[0] },
-  { id: "ABC-10176", product: products[2] },
+  { id: "SARCO-10294", product: products[0] },
+  { id: "SARCO-10176", product: products[2] },
 ];
 
 const savedRebateIds = [rebates[0], rebates[2]];
@@ -30,6 +31,7 @@ export function AccountModal() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dialogRef = useDialog<HTMLDivElement>(accountOpen, closeAccount);
 
   function handleSignIn(e: React.FormEvent) {
     e.preventDefault();
@@ -54,12 +56,16 @@ export function AccountModal() {
           onClick={closeAccount}
         >
           <motion.div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            tabIndex={-1}
             initial={{ y: 24, opacity: 0, scale: 0.98 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 16, opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.25, ease: EASE }}
             onClick={(e) => e.stopPropagation()}
-            className="relative flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-white shadow-lift"
+            className="relative flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-white shadow-lift outline-none"
           >
             <button
               onClick={closeAccount}

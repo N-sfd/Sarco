@@ -41,7 +41,7 @@ export function MobileBottomNav() {
                 <button
                   type="button"
                   onClick={() => setMobileNavOpen(true)}
-                  className="flex w-full flex-col items-center gap-0.5 py-2 text-[10px] font-semibold text-muted"
+                  className="flex min-h-11 w-full flex-col items-center justify-center gap-0.5 py-2 text-[10px] font-semibold text-muted"
                 >
                   <Icon className="h-5 w-5" />
                   {item.label}
@@ -59,7 +59,7 @@ export function MobileBottomNav() {
                     el?.focus();
                     window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
-                  className="flex w-full flex-col items-center gap-0.5 py-2 text-[10px] font-semibold text-muted"
+                  className="flex min-h-11 w-full flex-col items-center justify-center gap-0.5 py-2 text-[10px] font-semibold text-muted"
                 >
                   <Icon className="h-5 w-5" />
                   {item.label}
@@ -72,7 +72,7 @@ export function MobileBottomNav() {
               <Link
                 href={item.href}
                 className={cn(
-                  "relative flex flex-col items-center gap-0.5 py-2 text-[10px] font-semibold",
+                  "relative flex min-h-11 flex-col items-center justify-center gap-0.5 py-2 text-[10px] font-semibold",
                   active ? "text-accent" : "text-muted",
                 )}
               >

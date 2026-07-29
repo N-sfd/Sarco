@@ -33,9 +33,9 @@
   --radius-md: 4px;
   --radius-lg: 6px;
 
-  /* Header desktop/mobile switch — the 12-item mega nav needs more room than
+  /* Header desktop/mobile switch — the 11-item mega nav needs more room than
      the default lg (1024px) breakpoint gives it before items get clipped. */
-  --breakpoint-nav: 1180px;
+  --breakpoint-nav: 1320px;
 }
 
 * {
@@ -96,6 +96,356 @@ h1, h2, h3, h4, h5 {
   .page-container {
     padding-inline: 48px;
   }
+}
+
+/* Main navigation — flex items never shrink/clip; container never exceeds
+   viewport width, so the full 11-item list stays visible at any width ≥
+   the nav breakpoint. See --breakpoint-nav above for the tablet cutover.
+   .main-nav-container intentionally carries NO width/max-width/padding of
+   its own — it reuses .page-container (via the <PageContainer> component)
+   so the nav's left/right edges are always pixel-identical to the
+   logo/search row and utility rows above it. Redeclaring padding here
+   previously drifted out of sync with .page-container's responsive padding
+   and made the first nav item look "cropped" relative to the rows above it. */
+.main-nav {
+  position: relative;
+  width: 100%;
+  background: #10283f;
+  overflow: visible;
+  z-index: 50;
+}
+
+.main-nav-container {
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.main-nav-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: static;
+  transform: none;
+  left: auto;
+  right: auto;
+  min-width: 0;
+}
+
+.main-nav-item {
+  flex: 0 0 auto;
+  position: static;
+  white-space: nowrap;
+}
+
+.main-nav-list > li:first-child {
+  margin-left: 0;
+}
+
+.nav-trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 58px;
+  padding-inline: 8px;
+  white-space: nowrap;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.nav-trigger[data-open="true"] {
+  color: #ffffff;
+}
+
+.nav-trigger::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  background: #e96a50;
+  transform: translateX(-50%);
+  transition: width 200ms ease;
+}
+
+.nav-trigger[data-open="true"]::after,
+.nav-trigger:hover::after {
+  width: calc(100% - 14px);
+}
+
+.nav-trigger:focus-visible {
+  outline: 2px solid #e96a50;
+  outline-offset: -4px;
+}
+
+.nav-trigger-chevron {
+  flex-shrink: 0;
+  opacity: 0.85;
+  transition: transform 180ms ease;
+}
+
+.nav-trigger-chevron--open {
+  transform: rotate(180deg);
+}
+
+/* Mega menu — one panel anchored to the full nav bar (.main-nav is relative). */
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid #e4e9ef;
+  border-bottom: 1px solid #dde3ea;
+  box-shadow: 0 18px 42px rgba(8, 35, 70, 0.14);
+  z-index: 100;
+}
+
+/* Matches .page-container's ≥1024px tier exactly (the mega menu only ever
+   renders at ≥1320px), so its left edge lines up with the logo/search row
+   and nav bar above it instead of drifting on its own max-width/padding. */
+.mega-menu-inner {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: 24px 48px 28px;
+  box-sizing: border-box;
+}
+
+.mega-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 40px;
+  row-gap: 16px;
+  align-items: start;
+  justify-items: start;
+}
+
+.mega-menu-grid--compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 720px;
+}
+
+.mega-menu-grid--brands {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 28px;
+}
+
+.mega-menu-column {
+  min-width: 0;
+  padding: 4px 0;
+}
+
+.mega-menu-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 13px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #10283f;
+  text-decoration: none;
+  line-height: 1.2;
+}
+
+.mega-menu-heading::before {
+  content: "";
+  width: 4px;
+  height: 18px;
+  border-radius: 4px;
+  background: #083b82;
+  flex-shrink: 0;
+}
+
+.mega-menu-heading:hover {
+  color: #083b82;
+}
+
+.mega-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mega-menu-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  min-height: 30px;
+  color: #657487;
+  font-size: 14px;
+  line-height: 1.35;
+  text-decoration: none;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.mega-menu-link-arrow {
+  flex-shrink: 0;
+  color: #e96a50;
+  opacity: 0;
+  transform: translateX(-2px);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.mega-menu-link:hover,
+.mega-menu-link:focus-visible {
+  color: #083b82;
+  transform: translateX(3px);
+  outline: none;
+}
+
+.mega-menu-link:hover .mega-menu-link-arrow,
+.mega-menu-link:focus-visible .mega-menu-link-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.shop-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  color: #e96a50;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.shop-all-link:hover,
+.shop-all-link:focus-visible {
+  color: #d4573f;
+  outline: none;
+}
+
+/* Mobile accordion */
+.mobile-nav-section {
+  border-bottom: 1px solid #e5e9ee;
+}
+
+.mobile-nav-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 54px;
+  padding: 0 18px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #10283f;
+  background: white;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mobile-nav-trigger[data-open="true"] {
+  background: #f5f8fb;
+}
+
+.mobile-nav-trigger:focus-visible {
+  outline: 2px solid #e96a50;
+  outline-offset: -2px;
+}
+
+.mobile-nav-panel {
+  background: #f5f8fb;
+  padding: 0 0 12px;
+}
+
+.mobile-nav-shop-all {
+  display: block;
+  padding: 8px 28px 12px;
+  color: #e96a50;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.mobile-nav-nested {
+  border-top: 1px solid #e5e9ee;
+}
+
+.mobile-nav-nested-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 28px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mobile-nav-nested-heading {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #536274;
+  letter-spacing: 0.02em;
+}
+
+.mobile-nav-nested-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 28px;
+  color: #10283f;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link:focus-visible {
+  color: #083b82;
+}
+
+/* Category landing page image cards — hero and subtype thumbnails share this
+   so nothing stretches or distorts regardless of the source image's own
+   aspect ratio. */
+.category-image-card {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #f4f6f8;
+}
+
+.category-image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Alias for existing class names during migration */

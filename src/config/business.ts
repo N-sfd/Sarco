@@ -1,5 +1,6 @@
 export const businessConfig = {
   name: "Sarco Appliances",
+  tagline: "Sales • Delivery • Installation • Repair",
 
   primaryContact: {
     label: "Customer Service & Repair",
@@ -14,7 +15,7 @@ export const businessConfig = {
   },
 
   ashburnOffice: {
-    label: "Ashburn Office",
+    label: "Administrative Office",
     phoneDisplay: "(703) 496-7858",
     phoneHref: "tel:+17034967858",
     email: "Rome@consultamerica.net",

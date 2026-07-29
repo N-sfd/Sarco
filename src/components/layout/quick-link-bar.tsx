@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/page-container";
-import { quickLinks } from "@/data/navigation";
+import { quickLinks } from "@/config/navigation";
 
 export function QuickLinkBar() {
   return (

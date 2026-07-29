@@ -1,9 +1,13 @@
+"use client";
+
 import Link from "next/link";
+import { Mail, MapPin, Phone, Wrench } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 import { PageContainer } from "@/components/layout/page-container";
 import { siteConfig } from "@/config/site";
 import { businessConfig } from "@/config/business";
-import { stores } from "@/data/stores";
+import { companyLinks } from "@/config/navigation";
+import { useUiStore } from "@/stores/wishlist";
 
 const shop = [
   { label: "Refrigeration", href: "/refrigeration" },
@@ -36,68 +40,65 @@ const help = [
   { label: "Return Policy", href: "/returns" },
 ];
 
-const company = [
-  { label: "About Us", href: "/about" },
-  { label: "Our Story", href: "/about/story" },
-  { label: "Locations", href: "/locations" },
-  { label: "Contact Us", href: "/contact" },
-  { label: "Careers", href: "/careers" },
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms and Conditions", href: "/terms" },
-  { label: "Accessibility", href: "/accessibility" },
-];
-
 export function SiteFooter() {
+  const setServiceModalOpen = useUiStore((s) => s.setServiceModalOpen);
+
   return (
     <footer className="border-t border-navy-800 bg-navy text-white">
       <PageContainer className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-5">
         <FooterCol title="Shop" links={shop} />
         <FooterCol title="Services" links={services} />
         <FooterCol title="Shopping Help" links={help} />
-        <FooterCol title="Company" links={company} />
+        <FooterCol title="Company" links={companyLinks} />
 
         <div>
-          <p className="mb-4 text-[13px] font-bold uppercase tracking-wide text-white/70">Locations</p>
-          <ul className="space-y-5">
-            {stores.map((store) => (
-              <li key={store.id} className="text-[13px] leading-relaxed text-white/80">
-                <p className="font-semibold text-white">
-                  {store.city}, {store.state}
-                </p>
-                <p>{store.address}</p>
-                <p>{store.phone}</p>
-                <p>{store.hours}</p>
-                <a
-                  href={`https://maps.google.com/?q=${encodeURIComponent(`${store.address}, ${store.city}, ${store.state} ${store.zip}`)}`}
-                  className="mt-1 inline-block text-accent-400 hover:underline"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Get Directions
-                </a>
-              </li>
-            ))}
-            <li className="text-[13px] leading-relaxed text-white/80">
-              <p className="font-semibold text-white">{businessConfig.ashburnOffice.label}</p>
-              {businessConfig.ashburnOffice.addressLines.map((line) => (
-                <p key={line}>{line}</p>
-              ))}
-              <a href={businessConfig.ashburnOffice.phoneHref} className="block hover:text-white">
-                {businessConfig.ashburnOffice.phoneDisplay}
+          <p className="mb-4 text-[13px] font-bold uppercase tracking-wide text-white/70">
+            Contact &amp; Service Area
+          </p>
+          <div className="space-y-5 text-[13px] leading-relaxed text-white/80">
+            <div>
+              <p className="font-semibold text-white">{businessConfig.primaryContact.label}</p>
+              <a href={businessConfig.primaryContact.phoneHref} className="flex items-center gap-1.5 hover:text-white">
+                <Phone className="h-3.5 w-3.5 shrink-0" /> {businessConfig.primaryContact.phoneDisplay}
               </a>
-              <a href={businessConfig.ashburnOffice.emailHref} className="block hover:text-white">
-                {businessConfig.ashburnOffice.email}
+              <a href={businessConfig.primaryContact.emailHref} className="flex items-center gap-1.5 hover:text-white">
+                <Mail className="h-3.5 w-3.5 shrink-0" /> {businessConfig.primaryContact.email}
               </a>
-              <a
-                href={`https://maps.google.com/?q=${encodeURIComponent(businessConfig.ashburnOffice.addressLines.join(", "))}`}
+              <p className="flex items-start gap-1.5">
+                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                {businessConfig.primaryContact.addressLines.join(", ")}
+              </p>
+              <button
+                type="button"
+                onClick={() => setServiceModalOpen(true)}
                 className="mt-1 inline-block text-accent-400 hover:underline"
-                target="_blank"
-                rel="noreferrer"
               >
-                Get Directions
+                Check Service Availability
+              </button>
+              <Link href="/repair/schedule" className="mt-1 flex items-center gap-1.5 text-accent-400 hover:underline">
+                <Wrench className="h-3.5 w-3.5 shrink-0" /> Schedule Repair
+              </Link>
+            </div>
+
+            <div>
+              <p className="font-semibold text-white">{businessConfig.ashburnOffice.label}</p>
+              <a href={businessConfig.ashburnOffice.phoneHref} className="flex items-center gap-1.5 hover:text-white">
+                <Phone className="h-3.5 w-3.5 shrink-0" /> {businessConfig.ashburnOffice.phoneDisplay}
               </a>
-            </li>
-          </ul>
+              <a href={businessConfig.ashburnOffice.emailHref} className="flex items-center gap-1.5 hover:text-white">
+                <Mail className="h-3.5 w-3.5 shrink-0" /> {businessConfig.ashburnOffice.email}
+              </a>
+              <p className="flex items-start gap-1.5">
+                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                {businessConfig.ashburnOffice.addressLines.join(", ")}
+              </p>
+            </div>
+
+            <p className="text-white/60">
+              Sarco Appliances is currently an online sales and scheduled service business. We do not operate
+              a public walk-in showroom at this time.
+            </p>
+          </div>
         </div>
       </PageContainer>
 

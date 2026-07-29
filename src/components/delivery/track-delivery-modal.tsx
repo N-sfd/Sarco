@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, Truck, ClipboardCheck, PackageCheck, CheckCircle2, Phone } from "lucide-react";
+import { X, Truck, ClipboardCheck, PackageCheck, CalendarClock, CheckCircle2, Phone, AlertCircle } from "lucide-react";
 import { useUI } from "@/lib/ui-store";
 import { siteConfig } from "@/config/site";
 import { DELIVERY_STAGES, EASE, getMockDeliveryStatus } from "@/lib/utils";
 
-const stageIcons = [ClipboardCheck, PackageCheck, Truck, CheckCircle2];
+const stageIcons = [ClipboardCheck, PackageCheck, CalendarClock, Truck, CheckCircle2];
 
 export function TrackDeliveryModal() {
   const { trackingOpen, trackingOrderId, closeTracking } = useUI();
@@ -25,8 +25,25 @@ function TrackingPanel({ initialOrderId, onClose }: { initialOrderId: string; on
   const [orderId, setOrderId] = useState(initialOrderId);
   const [contact, setContact] = useState("");
   const [submitted, setSubmitted] = useState(Boolean(initialOrderId));
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const status = submitted && orderId ? getMockDeliveryStatus(orderId) : null;
+
+  const handleTrack = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = orderId.trim();
+    if (trimmed.length < 5) {
+      setError("Enter a valid order number (at least 5 characters).");
+      return;
+    }
+    setError(null);
+    setLoading(true);
+    window.setTimeout(() => {
+      setLoading(false);
+      setSubmitted(true);
+    }, 500);
+  };
 
   return (
     <motion.div
@@ -61,13 +78,7 @@ function TrackingPanel({ initialOrderId, onClose }: { initialOrderId: string; on
 
             <div className="px-6 py-6 sm:px-8">
               {!status ? (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setSubmitted(true);
-                  }}
-                  className="flex flex-col gap-4"
-                >
+                <form onSubmit={handleTrack} className="flex flex-col gap-4">
                   <label className="flex flex-col gap-1.5">
                     <span className="text-sm font-semibold text-navy">
                       Order number <span className="text-accent">*</span>
@@ -75,8 +86,11 @@ function TrackingPanel({ initialOrderId, onClose }: { initialOrderId: string; on
                     <input
                       required
                       value={orderId}
-                      onChange={(e) => setOrderId(e.target.value)}
-                      placeholder="e.g. ABC-10294"
+                      onChange={(e) => {
+                        setOrderId(e.target.value);
+                        setError(null);
+                      }}
+                      placeholder="e.g. SARCO-10294"
                       className="w-full rounded-xl border border-navy/12 bg-white px-4 py-3 text-sm text-navy placeholder:text-ink/40 transition focus:border-royal focus:outline-none focus:ring-2 focus:ring-royal/20"
                     />
                   </label>
@@ -89,11 +103,17 @@ function TrackingPanel({ initialOrderId, onClose }: { initialOrderId: string; on
                       className="w-full rounded-xl border border-navy/12 bg-white px-4 py-3 text-sm text-navy placeholder:text-ink/40 transition focus:border-royal focus:outline-none focus:ring-2 focus:ring-royal/20"
                     />
                   </label>
+                  {error && (
+                    <p className="flex items-center gap-1.5 text-sm font-semibold text-accent">
+                      <AlertCircle className="h-4 w-4 shrink-0" /> {error}
+                    </p>
+                  )}
                   <button
                     type="submit"
-                    className="mt-1 flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-white shadow-card transition hover:bg-accent-600"
+                    disabled={loading}
+                    className="mt-1 flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-white shadow-card transition hover:bg-accent-600 disabled:opacity-60"
                   >
-                    <Truck className="h-4 w-4" /> Track order
+                    <Truck className="h-4 w-4" /> {loading ? "Looking up order…" : "Track order"}
                   </button>
                 </form>
               ) : (

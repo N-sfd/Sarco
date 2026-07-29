@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AccessibilityBar } from "@/components/layout/accessibility-bar";
 import { UtilityHeader } from "@/components/layout/utility-header";
 import { QuickLinkBar } from "@/components/layout/quick-link-bar";
 import { SearchHeader } from "@/components/search/search-header";
-import { MainNavigation } from "@/components/layout/main-nav";
+import { MainNav } from "@/components/layout/main-nav";
 import { MobileNavDrawer } from "@/components/layout/mobile-nav-drawer";
-import { StoreSelectorModal } from "@/components/store/store-selector-modal";
+import { ServiceAvailabilityModal } from "@/components/service/service-availability-modal";
 import { QuickViewModal } from "@/components/catalog/quick-view-modal";
 import { cn } from "@/lib/utils";
 
@@ -30,14 +29,13 @@ export function SiteHeader() {
       data-scrolled={scrolled ? "true" : "false"}
     >
       <div className={cn(scrolled && "hidden nav:block nav:[&_.header-compact-hide]:hidden")}>
-        <AccessibilityBar />
         <UtilityHeader />
         <QuickLinkBar />
       </div>
       <SearchHeader compact={scrolled} />
-      <MainNavigation />
+      <MainNav />
       <MobileNavDrawer />
-      <StoreSelectorModal />
+      <ServiceAvailabilityModal />
       <QuickViewModal />
     </header>
   );

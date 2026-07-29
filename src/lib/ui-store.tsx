@@ -1,9 +1,10 @@
 "use client";
 
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useRef, useState } from "react";
 import { QuoteBuilderModal } from "@/components/quote/quote-builder-modal";
 import { AccountModal } from "@/components/account/account-modal";
 import { TrackDeliveryModal } from "@/components/delivery/track-delivery-modal";
+import { Toast } from "@/components/ui/toast";
 
 export type QuoteItem = {
   type: "product" | "package" | "service";
@@ -32,6 +33,8 @@ type UIContextValue = {
   trackingOrderId: string;
   openTracking: (orderId?: string) => void;
   closeTracking: () => void;
+
+  showToast: (message: string) => void;
 };
 
 const UIContext = createContext<UIContextValue | null>(null);
@@ -63,6 +66,14 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
 
   const [trackingOpen, setTrackingOpen] = useState(false);
   const [trackingOrderId, setTrackingOrderId] = useState("");
+
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const toastTimer = useRef<number | undefined>(undefined);
+  const showToast = useCallback((message: string) => {
+    setToastMessage(message);
+    window.clearTimeout(toastTimer.current);
+    toastTimer.current = window.setTimeout(() => setToastMessage(null), 3000);
+  }, []);
 
   const openQuote = useCallback((item?: QuoteItem) => {
     setQuoteItem(item ?? null);
@@ -106,12 +117,14 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
         trackingOrderId,
         openTracking,
         closeTracking,
+        showToast,
       }}
     >
       {children}
       <QuoteBuilderModal />
       <AccountModal />
       <TrackDeliveryModal />
+      <Toast message={toastMessage} />
     </UIContext.Provider>
   );
 }

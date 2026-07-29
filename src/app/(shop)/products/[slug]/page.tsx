@@ -5,6 +5,8 @@ import { products, availabilityLabel } from "@/data/products";
 import { formatCurrency } from "@/lib/utils";
 import { AddToCartButton } from "@/components/catalog/add-to-cart-button";
 import { PageContainer } from "@/components/layout/page-container";
+import { JsonLd } from "@/components/ui/json-ld";
+import { breadcrumbSchema, productSchema } from "@/lib/structured-data";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -25,12 +27,22 @@ export default async function ProductPage({ params }: Props) {
 
   const savings = product.salePrice != null ? product.price - product.salePrice : 0;
 
+  const categoryHref = `/${product.category.toLowerCase().replace(/\s+/g, "-")}`;
+
   return (
     <PageContainer className="py-8">
+      <JsonLd data={productSchema(product)} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", href: "/" },
+          { name: product.category, href: categoryHref },
+          { name: product.title, href: `/products/${product.slug}` },
+        ])}
+      />
       <nav className="mb-4 text-xs text-muted">
         <Link href="/" className="hover:text-accent">Home</Link>
         <span className="mx-1">/</span>
-        <Link href={`/${product.category.toLowerCase().replace(/\s+/g, "-")}`} className="hover:text-accent">
+        <Link href={categoryHref} className="hover:text-accent">
           {product.category}
         </Link>
         <span className="mx-1">/</span>

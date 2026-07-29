@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Phone, MapPin, Wrench, MessageCircle } from "lucide-react";
+import { Phone, Wrench, MessageCircle } from "lucide-react";
 import { PageContainer } from "@/components/layout/page-container";
 import { siteConfig } from "@/config/site";
 
@@ -121,17 +121,17 @@ export default function PartsPage() {
             </a>
           </div>
           <div className="border border-white/20 bg-white/5 p-4">
-            <MapPin className="h-5 w-5 text-accent-400" />
-            <h3 className="mt-2 text-sm font-bold">Visit a Store</h3>
+            <MessageCircle className="h-5 w-5 text-accent-400" />
+            <h3 className="mt-2 text-sm font-bold">Email Us</h3>
             <p className="mt-1 text-xs text-white/70">
-              Bring in your model number, or the part itself, for an in-person match.
+              Send your model number, or a photo of the part, for a fast compatibility match.
             </p>
-            <Link
-              href="/locations"
+            <a
+              href={siteConfig.email ? `mailto:${siteConfig.email}` : undefined}
               className="mt-3 inline-block text-sm font-semibold text-accent-400 hover:text-white"
             >
-              Find a Store
-            </Link>
+              {siteConfig.email}
+            </a>
           </div>
           <div className="border border-white/20 bg-white/5 p-4">
             <Wrench className="h-5 w-5 text-accent-400" />

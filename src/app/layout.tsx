@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { siteConfig } from "@/config/site";
+import { businessConfig } from "@/config/business";
 import "./globals.css";
 
 const inter = Inter({
@@ -50,13 +51,22 @@ export const viewport: Viewport = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": ["HomeAndConstructionBusiness", "Store"],
+  "@type": "HomeAndConstructionBusiness",
   name: siteConfig.name,
   url: siteConfig.url,
-  telephone: siteConfig.phoneTel,
+  telephone: businessConfig.primaryContact.phoneDisplay,
+  email: businessConfig.primaryContact.email,
   slogan: siteConfig.tagline,
   priceRange: "$$",
-  areaServed: ["Maryland", "Virginia", "West Virginia"],
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: businessConfig.primaryContact.addressLines[0],
+    addressLocality: "Hagerstown",
+    addressRegion: "MD",
+    postalCode: "21740",
+    addressCountry: "US",
+  },
+  areaServed: ["Maryland", "Virginia", "West Virginia", "Pennsylvania"],
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

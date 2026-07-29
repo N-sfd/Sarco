@@ -70,7 +70,7 @@ export default function RebatesPage() {
           <a href={`mailto:${siteConfig.email}`} className="font-semibold text-navy hover:text-accent">
             {siteConfig.email}
           </a>{" "}
-          or ask any sales associate in-store.
+          or call our team.
         </p>
       </div>
 

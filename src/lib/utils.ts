@@ -16,6 +16,11 @@ export function formatCurrency(value: number) {
   }).format(value);
 }
 
+/** 0% promotional financing estimate — same formula used by the financing calculator. */
+export function estimateMonthlyPayment(amount: number, months: number) {
+  return amount / months;
+}
+
 /** Simple deterministic string hash — same input always yields the same mock status. */
 function hashString(value: string) {
   let hash = 0;
@@ -27,7 +32,8 @@ function hashString(value: string) {
 
 export const DELIVERY_STAGES = [
   "Order Confirmed",
-  "Preparing for Delivery",
+  "Preparing Order",
+  "Delivery Scheduled",
   "Out for Delivery",
   "Delivered",
 ] as const;

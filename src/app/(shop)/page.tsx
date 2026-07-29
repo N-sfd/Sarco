@@ -33,8 +33,8 @@ export default function HomePage() {
       <FeaturedProducts />
 
       <SplitPromoSection
-        title="Lighten Your Workload"
-        description="Discover washers, dryers, laundry pairs, and smart laundry solutions designed to simplify every load."
+        title="Simplify Laundry Day with Smart & Efficient Washers & Dryers"
+        description="Discover high-capacity front-loaders, stackable units, and smart laundry pairs built to save time and energy."
         cta="Shop Laundry"
         href="/laundry"
         image={siteImages.promoLaundry}
@@ -47,11 +47,11 @@ export default function HomePage() {
       <GrillsPromo />
 
       <SplitPromoSection
-        title="Expert Appliance Repair"
-        description="Our trained technicians diagnose and repair refrigerators, washers, dryers, ranges, ovens, dishwashers, and other major appliances."
+        title="Factory-Trained Appliance Repair & Maintenance"
+        description="Fast diagnostics, genuine replacement parts, and certified service for all major appliance brands across Hagerstown."
         cta="Schedule Service"
         href="/repair/schedule"
-        image="/images/value-repair.jpg"
+        image={siteImages.promoRepair}
         imagePosition="left"
         background="white"
       />

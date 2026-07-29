@@ -55,22 +55,22 @@ export const useCompare = create<CompareState>()(
 );
 
 type UiState = {
-  storeModalOpen: boolean;
+  serviceModalOpen: boolean;
   mobileNavOpen: boolean;
   mobileSearchOpen: boolean;
   quickViewSlug: string | null;
-  setStoreModalOpen: (open: boolean) => void;
+  setServiceModalOpen: (open: boolean) => void;
   setMobileNavOpen: (open: boolean) => void;
   setMobileSearchOpen: (open: boolean) => void;
   setQuickViewSlug: (slug: string | null) => void;
 };
 
 export const useUiStore = create<UiState>((set) => ({
-  storeModalOpen: false,
+  serviceModalOpen: false,
   mobileNavOpen: false,
   mobileSearchOpen: false,
   quickViewSlug: null,
-  setStoreModalOpen: (open) => set({ storeModalOpen: open }),
+  setServiceModalOpen: (open) => set({ serviceModalOpen: open }),
   setMobileNavOpen: (open) => set({ mobileNavOpen: open }),
   setMobileSearchOpen: (open) => set({ mobileSearchOpen: open }),
   setQuickViewSlug: (slug) => set({ quickViewSlug: slug }),

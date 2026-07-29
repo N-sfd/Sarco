@@ -25,8 +25,8 @@ export default function PrivacyPage() {
           <p className="mt-2">
             {siteConfig.name} (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) respects your privacy and is
             committed to protecting the personal information you share with us. This Privacy Policy explains what
-            information we collect, how we use it, and the choices you have when you shop with us online, visit
-            one of our stores, or use our repair and delivery services.
+            information we collect, how we use it, and the choices you have when you shop with us online or use
+            our repair and delivery services.
           </p>
         </section>
 
@@ -57,10 +57,10 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-base font-bold text-navy">Cookies &amp; Similar Technologies</h2>
           <p className="mt-2">
-            We use cookies and similar technologies to keep items in your cart, remember your preferred store
-            location, understand how visitors use our site, and personalize the products and promotions we show
-            you. You can control cookies through your browser settings; disabling cookies may limit some site
-            features, such as saved carts or store preferences.
+            We use cookies and similar technologies to keep items in your cart, remember your last checked
+            service ZIP code, understand how visitors use our site, and personalize the products and promotions
+            we show you. You can control cookies through your browser settings; disabling cookies may limit some
+            site features, such as saved carts or recent searches.
           </p>
         </section>
 
@@ -71,7 +71,7 @@ export default function PrivacyPage() {
             <li>To communicate with you about orders, service appointments, and warranty registrations.</li>
             <li>To respond to customer service inquiries and support requests.</li>
             <li>To send promotional offers and updates, where you have opted in to receive them.</li>
-            <li>To improve our website, products, and in-store experience.</li>
+            <li>To improve our website, products, and customer experience.</li>
             <li>To comply with legal obligations and enforce our terms and conditions.</li>
           </ul>
         </section>

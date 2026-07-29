@@ -2,14 +2,24 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { CheckCircle2, Clock, Mail, MapPin, Phone } from "lucide-react";
+import { CheckCircle2, Mail, MapPin, Navigation, Phone, Wrench } from "lucide-react";
 import { PageContainer } from "@/components/layout/page-container";
-import { siteConfig } from "@/config/site";
 import { businessConfig } from "@/config/business";
-import { stores } from "@/data/stores";
+import { useUiStore } from "@/stores/wishlist";
+
+const topics = [
+  { value: "product", label: "Product Question" },
+  { value: "delivery", label: "Delivery" },
+  { value: "installation", label: "Installation" },
+  { value: "repair", label: "Repair" },
+  { value: "builder", label: "Builder Sales" },
+  { value: "financing", label: "Financing" },
+  { value: "general", label: "General Inquiry" },
+];
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const setServiceModalOpen = useUiStore((s) => s.setServiceModalOpen);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,13 +71,13 @@ export default function ContactPage() {
               <div className="mt-3 space-y-3">
                 <select required defaultValue="" className="input-retail">
                   <option value="" disabled>
-                    Select a subject
+                    Select a topic
                   </option>
-                  <option value="sales">Product / Sales Question</option>
-                  <option value="order">Existing Order</option>
-                  <option value="repair">Repair Service</option>
-                  <option value="delivery">Delivery / Installation</option>
-                  <option value="other">Other</option>
+                  {topics.map((topic) => (
+                    <option key={topic.value} value={topic.value}>
+                      {topic.label}
+                    </option>
+                  ))}
                 </select>
                 <textarea
                   required
@@ -75,6 +85,12 @@ export default function ContactPage() {
                   rows={6}
                   className="input-retail resize-none"
                 />
+                <div>
+                  <label htmlFor="contact-image" className="mb-1 block text-xs font-semibold text-navy">
+                    Attach a photo (optional)
+                  </label>
+                  <input id="contact-image" type="file" accept="image/*" className="input-retail" />
+                </div>
               </div>
             </fieldset>
 
@@ -90,14 +106,14 @@ export default function ContactPage() {
             <div className="mt-3 space-y-3 text-sm">
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 shrink-0 text-navy" />
-                <a href={`tel:${siteConfig.phoneTel}`} className="text-muted hover:text-accent">
-                  {siteConfig.phone}
+                <a href={businessConfig.primaryContact.phoneHref} className="text-muted hover:text-accent">
+                  {businessConfig.primaryContact.phoneDisplay}
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 shrink-0 text-navy" />
-                <a href={`mailto:${siteConfig.email}`} className="text-muted hover:text-accent">
-                  {siteConfig.email}
+                <a href={businessConfig.primaryContact.emailHref} className="text-muted hover:text-accent">
+                  {businessConfig.primaryContact.email}
                 </a>
               </div>
               <div className="flex items-start gap-2">
@@ -106,10 +122,20 @@ export default function ContactPage() {
                   {businessConfig.primaryContact.addressLines.join(", ")}
                 </span>
               </div>
-              <div className="flex items-start gap-2">
-                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-navy" />
-                <span className="text-muted">Mon–Fri 9–7 · Sat 9–6 · Sun hours vary by store</span>
-              </div>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <a href={businessConfig.primaryContact.phoneHref} className="btn btn-outline btn-sm">
+                Call
+              </a>
+              <a href={businessConfig.primaryContact.emailHref} className="btn btn-outline btn-sm">
+                Email
+              </a>
+              <Link href="/repair/schedule" className="btn btn-primary btn-sm">
+                <Wrench className="h-3.5 w-3.5" /> Schedule Repair
+              </Link>
+              <button type="button" className="btn btn-accent btn-sm" onClick={() => setServiceModalOpen(true)}>
+                Check Availability
+              </button>
             </div>
           </div>
 
@@ -134,42 +160,29 @@ export default function ContactPage() {
                   {businessConfig.ashburnOffice.addressLines.join(", ")}
                 </span>
               </div>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <a href={businessConfig.ashburnOffice.phoneHref} className="btn btn-outline btn-sm">
+                Call
+              </a>
+              <a href={businessConfig.ashburnOffice.emailHref} className="btn btn-outline btn-sm">
+                Email
+              </a>
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(businessConfig.ashburnOffice.addressLines.join(", "))}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-block text-xs font-semibold text-accent hover:underline"
+                className="btn btn-outline btn-sm col-span-2"
               >
-                Get Directions
+                <Navigation className="h-3.5 w-3.5" /> Get Directions
               </a>
             </div>
           </div>
 
-          <div>
-            <h2 className="mb-3 text-sm font-bold text-navy">Our Stores</h2>
-            <div className="space-y-3">
-              {stores.map((store) => (
-                <div key={store.id} className="border border-border bg-white p-3">
-                  <p className="text-xs font-bold text-navy">
-                    {store.city}, {store.state}
-                  </p>
-                  <div className="mt-1.5 flex items-start gap-1.5 text-xs text-muted">
-                    <MapPin className="mt-0.5 h-3 w-3 shrink-0" />
-                    <span>
-                      {store.address}, {store.city}, {store.state} {store.zip}
-                    </span>
-                  </div>
-                  <div className="mt-1 flex items-center gap-1.5 text-xs text-muted">
-                    <Phone className="h-3 w-3 shrink-0" />
-                    <a href={`tel:${store.phone.replace(/[^\d+]/g, "")}`} className="hover:text-accent">
-                      {store.phone}
-                    </a>
-                  </div>
-                  <p className="mt-1 text-xs text-muted">{store.hours}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <p className="border border-border bg-white p-4 text-xs leading-relaxed text-muted">
+            Sarco Appliances is currently an online sales and scheduled service business. We do not operate a
+            public walk-in showroom at this time.
+          </p>
         </aside>
       </div>
     </PageContainer>
