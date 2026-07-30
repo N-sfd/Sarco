@@ -18,10 +18,10 @@ import { mainNavigation, type MegaMenuItem, type NavKey } from "@/config/navigat
 const CLOSE_DELAY_MS = 150;
 
 const panelMotion = {
-  initial: { opacity: 0, y: -8 },
+  initial: { opacity: 0, y: -6 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -6 },
-  transition: { duration: 0.18, ease: [0.22, 1, 0.36, 1] as const },
+  exit: { opacity: 0, y: -4 },
+  transition: { duration: 0.16, ease: [0.22, 1, 0.36, 1] as const },
 };
 
 export function MainNav() {

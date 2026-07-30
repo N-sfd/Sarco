@@ -1,12 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { products, availabilityLabel } from "@/data/products";
-import { formatCurrency } from "@/lib/utils";
-import { AddToCartButton } from "@/components/catalog/add-to-cart-button";
+import { products, type Product } from "@/data/products";
+import { ProductCard } from "@/components/catalog/product-card";
 import { PageContainer } from "@/components/layout/page-container";
 import { JsonLd } from "@/components/ui/json-ld";
 import { breadcrumbSchema, productSchema } from "@/lib/structured-data";
+import { ProductPurchasePanel } from "./product-purchase-panel";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -20,14 +19,38 @@ export async function generateMetadata({ params }: Props) {
   return { title: product?.title ?? "Product" };
 }
 
+type SpecRow = { label: string; value: string };
+
+function buildSpecs(product: Product): SpecRow[] {
+  const rows: SpecRow[] = [
+    { label: "Brand", value: product.brand },
+    { label: "Model Number", value: product.model },
+    { label: "SKU", value: product.sku },
+    { label: "Category", value: product.subcategory },
+  ];
+  if (product.finish) rows.push({ label: "Finish / Color", value: product.finish });
+  if (product.fuelType) rows.push({ label: "Fuel Type", value: product.fuelType });
+  if (product.widthInches) rows.push({ label: "Width", value: `${product.widthInches}"` });
+  if (product.capacityCuFt) rows.push({ label: "Capacity", value: `${product.capacityCuFt} cu. ft.` });
+  if (product.loadType) rows.push({ label: "Load Type", value: product.loadType });
+  if (product.noiseDba) rows.push({ label: "Noise Level", value: `${product.noiseDba} dBA` });
+  if (product.controlType) rows.push({ label: "Control Type", value: product.controlType });
+  if (product.dishwasherType) rows.push({ label: "Dishwasher Type", value: product.dishwasherType });
+  if (product.cycleCount) rows.push({ label: "Wash Cycles", value: String(product.cycleCount) });
+  rows.push({ label: "ENERGY STAR® Certified", value: product.energyStar ? "Yes" : "No" });
+  return rows;
+}
+
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
   const product = products.find((p) => p.slug === slug);
   if (!product) notFound();
 
-  const savings = product.salePrice != null ? product.price - product.salePrice : 0;
-
   const categoryHref = `/${product.category.toLowerCase().replace(/\s+/g, "-")}`;
+  const specs = buildSpecs(product);
+  const related = products
+    .filter((p) => p.category === product.category && p.id !== product.id)
+    .slice(0, 4);
 
   return (
     <PageContainer className="py-8">
@@ -49,52 +72,46 @@ export default async function ProductPage({ params }: Props) {
         <span className="text-navy">{product.title}</span>
       </nav>
 
-      <div className="grid gap-8 lg:grid-cols-2">
-        <div className="relative aspect-square overflow-hidden border border-border bg-surface">
-          <Image src={product.image} alt={product.title} fill className="object-cover" sizes="50vw" priority />
-        </div>
-        <div>
-          <p className="text-xs font-bold uppercase tracking-wide text-muted">{product.brand}</p>
-          <h1 className="mt-1 text-2xl font-bold text-navy md:text-3xl">{product.title}</h1>
-          <p className="mt-1 text-sm text-muted">Model {product.model} · SKU {product.sku}</p>
-          <p className="mt-2 text-sm">
-            ★ {product.rating} · {product.reviewCount} reviews
-          </p>
+      <ProductPurchasePanel product={product} />
 
-          <div className="mt-4">
-            {product.salePrice != null ? (
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-bold text-accent">{formatCurrency(product.salePrice)}</span>
-                <span className="text-lg text-muted line-through">{formatCurrency(product.price)}</span>
-                <span className="text-sm font-semibold text-success">Save {formatCurrency(savings)}</span>
+      <div className="mt-14 grid gap-10 lg:grid-cols-[1fr_1.4fr]">
+        {product.features && product.features.length > 0 && (
+          <section>
+            <h2 className="text-lg font-bold text-navy">Key Features</h2>
+            <ul className="mt-4 space-y-2.5 text-sm text-navy">
+              {product.features.map((feature) => (
+                <li key={feature} className="flex gap-2.5">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <section>
+          <h2 className="text-lg font-bold text-navy">Specifications</h2>
+          <dl className="mt-4 divide-y divide-border border-y border-border text-sm">
+            {specs.map((row) => (
+              <div key={row.label} className="flex justify-between gap-4 py-2.5">
+                <dt className="text-muted">{row.label}</dt>
+                <dd className="text-right font-semibold text-navy">{row.value}</dd>
               </div>
-            ) : (
-              <span className="text-3xl font-bold text-navy">{formatCurrency(product.price)}</span>
-            )}
-            <p className="mt-1 text-sm text-muted">
-              or {formatCurrency(product.financingMonthly)}/mo with financing
-            </p>
-          </div>
-
-          <p className="mt-3 text-sm font-semibold text-success">
-            {availabilityLabel(product.availability)}
-          </p>
-
-          <div className="mt-6 flex flex-wrap gap-3">
-            <AddToCartButton product={product} />
-            <Link href="/financing" className="btn btn-outline">
-              View Financing
-            </Link>
-          </div>
-
-          <ul className="mt-6 space-y-2 border-t border-border pt-4 text-sm text-muted">
-            <li>Free local delivery options on qualifying orders</li>
-            <li>Professional installation and haul-away available</li>
-            <li>Protection plans offered at checkout</li>
-            <li>Finish: {product.finish ?? "See specifications"}</li>
-          </ul>
-        </div>
+            ))}
+          </dl>
+        </section>
       </div>
+
+      {related.length > 0 && (
+        <section className="mt-14 border-t border-border pt-10">
+          <h2 className="text-lg font-bold text-navy">You May Also Like</h2>
+          <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {related.map((p, i) => (
+              <ProductCard key={p.id} product={p} index={i} />
+            ))}
+          </div>
+        </section>
+      )}
     </PageContainer>
   );
 }

@@ -18,9 +18,9 @@ export const siteImages = {
   heroCooking: "/images/cat-cooking.jpg",
   heroRepair: "/images/value-repair.jpg",
 
-  categoryRefrigeration: "/images/product-freezer.jpg",
-  categoryCooking: "/images/package-6.jpg",
-  categoryDishwashers: "/images/product-dishwasher-front.jpg",
+  categoryRefrigeration: "/images/category-refrigeration.jpg",
+  categoryCooking: "/images/category-cooking.jpg",
+  categoryDishwashers: "/images/category-dishwashers.jpg",
   categoryLaundry: "/images/cat-commercial.jpg",
   categoryKitchenPackages: "/images/kitchenaid.jpg",
   categoryGrills: "/images/package-3.jpg",

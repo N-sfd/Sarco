@@ -5,9 +5,6 @@ import { UtilityHeader } from "@/components/layout/utility-header";
 import { QuickLinkBar } from "@/components/layout/quick-link-bar";
 import { SearchHeader } from "@/components/search/search-header";
 import { MainNav } from "@/components/layout/main-nav";
-import { MobileNavDrawer } from "@/components/layout/mobile-nav-drawer";
-import { ServiceAvailabilityModal } from "@/components/service/service-availability-modal";
-import { QuickViewModal } from "@/components/catalog/quick-view-modal";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -34,9 +31,6 @@ export function SiteHeader() {
       </div>
       <SearchHeader compact={scrolled} />
       <MainNav />
-      <MobileNavDrawer />
-      <ServiceAvailabilityModal />
-      <QuickViewModal />
     </header>
   );
 }

@@ -1,15 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Mail, MapPin, Phone, Wrench } from "lucide-react";
+import { ChevronDown, Mail, MapPin, Phone, Wrench } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
-import { PageContainer } from "@/components/layout/page-container";
+import { FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/layout/social-icons";
 import { siteConfig } from "@/config/site";
 import { businessConfig } from "@/config/business";
-import { companyLinks } from "@/config/navigation";
+import { companyLinks, type NavLink } from "@/config/navigation";
 import { useUiStore } from "@/stores/wishlist";
 
-const shop = [
+const shop: NavLink[] = [
   { label: "Refrigeration", href: "/refrigeration" },
   { label: "Laundry", href: "/laundry" },
   { label: "Dishwashers", href: "/dishwashers" },
@@ -20,7 +21,7 @@ const shop = [
   { label: "Clearance", href: "/clearance" },
 ];
 
-const services = [
+const services: NavLink[] = [
   { label: "Appliance Repair", href: "/repair" },
   { label: "Delivery and Installation", href: "/services/delivery-installation" },
   { label: "Haul Away", href: "/services/haul-away" },
@@ -30,7 +31,7 @@ const services = [
   { label: "Builder Sales", href: "/builders" },
 ];
 
-const help = [
+const help: NavLink[] = [
   { label: "In Stock", href: "/in-stock" },
   { label: "Sales", href: "/sales" },
   { label: "Promotions and Rebates", href: "/promotions" },
@@ -40,121 +41,176 @@ const help = [
   { label: "Return Policy", href: "/returns" },
 ];
 
+const columns = [
+  { id: "shop", title: "Shop", links: shop },
+  { id: "services", title: "Services", links: services },
+  { id: "help", title: "Shopping Help", links: help },
+  { id: "company", title: "Company", links: companyLinks },
+];
+
 export function SiteFooter() {
   const setServiceModalOpen = useUiStore((s) => s.setServiceModalOpen);
+  // One-open-at-a-time accordion on mobile; irrelevant at >=720px where all
+  // panels are forced open via CSS (see .footer-column-panel media rule).
+  const [openColumn, setOpenColumn] = useState<string | null>(null);
 
   return (
     <footer className="border-t border-navy-800 bg-navy text-white">
-      <PageContainer className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-5">
-        <FooterCol title="Shop" links={shop} />
-        <FooterCol title="Services" links={services} />
-        <FooterCol title="Shopping Help" links={help} />
-        <FooterCol title="Company" links={companyLinks} />
+      <div className="footer-main-inner">
+        <div className="footer-grid">
+          {columns.map((col) => {
+            const isOpen = openColumn === col.id;
+            return (
+              <div key={col.id} className="footer-column">
+                <button
+                  type="button"
+                  className="footer-column-trigger"
+                  aria-expanded={isOpen}
+                  aria-controls={`footer-panel-${col.id}`}
+                  onClick={() => setOpenColumn((cur) => (cur === col.id ? null : col.id))}
+                >
+                  <span className="footer-column-title">{col.title}</span>
+                  <ChevronDown
+                    className="footer-column-chevron"
+                    data-open={isOpen ? "true" : "false"}
+                    size={16}
+                    aria-hidden
+                  />
+                </button>
+                <div
+                  id={`footer-panel-${col.id}`}
+                  className="footer-column-panel"
+                  data-open={isOpen ? "true" : "false"}
+                >
+                  <ul className="footer-link-list">
+                    {col.links.map((link) => (
+                      <li key={link.href}>
+                        <Link href={link.href} className="footer-link">
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            );
+          })}
 
-        <div>
-          <p className="mb-4 text-[13px] font-bold uppercase tracking-wide text-white/70">
-            Contact &amp; Service Area
-          </p>
-          <div className="space-y-5 text-[13px] leading-relaxed text-white/80">
-            <div>
-              <p className="font-semibold text-white">{businessConfig.primaryContact.label}</p>
-              <a href={businessConfig.primaryContact.phoneHref} className="flex items-center gap-1.5 hover:text-white">
-                <Phone className="h-3.5 w-3.5 shrink-0" /> {businessConfig.primaryContact.phoneDisplay}
+          <div className="footer-col-contact footer-customer-service">
+            <p className="footer-column-title">Contact &amp; Service Area</p>
+
+            <div className="footer-contact-group">
+              <p className="footer-contact-heading">{businessConfig.primaryContact.label}</p>
+              <a href={businessConfig.primaryContact.phoneHref} className="footer-contact-row">
+                <Phone className="footer-contact-icon h-4 w-4 shrink-0" aria-hidden />
+                <span>{businessConfig.primaryContact.phoneDisplay}</span>
               </a>
-              <a href={businessConfig.primaryContact.emailHref} className="flex items-center gap-1.5 hover:text-white">
-                <Mail className="h-3.5 w-3.5 shrink-0" /> {businessConfig.primaryContact.email}
+              <a href={businessConfig.primaryContact.emailHref} className="footer-contact-row">
+                <Mail className="footer-contact-icon h-4 w-4 shrink-0" aria-hidden />
+                <span>{businessConfig.primaryContact.email}</span>
               </a>
-              <p className="flex items-start gap-1.5">
-                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                {businessConfig.primaryContact.addressLines.join(", ")}
-              </p>
-              <button
-                type="button"
-                onClick={() => setServiceModalOpen(true)}
-                className="mt-1 inline-block text-accent-400 hover:underline"
-              >
-                Check Service Availability
-              </button>
-              <Link href="/repair/schedule" className="mt-1 flex items-center gap-1.5 text-accent-400 hover:underline">
-                <Wrench className="h-3.5 w-3.5 shrink-0" /> Schedule Repair
-              </Link>
+              <div className="footer-contact-row">
+                <MapPin className="footer-contact-icon h-4 w-4 shrink-0" aria-hidden />
+                <address className="footer-address not-italic">
+                  {businessConfig.primaryContact.addressLines.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </address>
+              </div>
+              <div className="footer-service-actions">
+                <button
+                  type="button"
+                  onClick={() => setServiceModalOpen(true)}
+                  className="footer-service-action"
+                >
+                  Check Service Availability
+                </button>
+                <Link href="/repair/schedule" className="footer-service-action">
+                  <Wrench className="h-3.5 w-3.5 shrink-0" aria-hidden /> Schedule Repair
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="footer-col-contact footer-administrative-office">
+            <p className="footer-column-title">Office &amp; Business Information</p>
+
+            <div className="footer-contact-group">
+              <h3>{businessConfig.ashburnOffice.label}</h3>
+              <a href={businessConfig.ashburnOffice.phoneHref} className="footer-contact-row">
+                <Phone className="footer-contact-icon h-4 w-4 shrink-0" aria-hidden />
+                <span>{businessConfig.ashburnOffice.phoneDisplay}</span>
+              </a>
+              <a href={businessConfig.ashburnOffice.emailHref} className="footer-contact-row">
+                <Mail className="footer-contact-icon h-4 w-4 shrink-0" aria-hidden />
+                <span>{businessConfig.ashburnOffice.email}</span>
+              </a>
+              <div className="footer-contact-row">
+                <MapPin className="footer-contact-icon h-4 w-4 shrink-0" aria-hidden />
+                <address className="footer-address not-italic">
+                  {businessConfig.ashburnOffice.addressLines.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </address>
+              </div>
             </div>
 
-            <div>
-              <p className="font-semibold text-white">{businessConfig.ashburnOffice.label}</p>
-              <a href={businessConfig.ashburnOffice.phoneHref} className="flex items-center gap-1.5 hover:text-white">
-                <Phone className="h-3.5 w-3.5 shrink-0" /> {businessConfig.ashburnOffice.phoneDisplay}
-              </a>
-              <a href={businessConfig.ashburnOffice.emailHref} className="flex items-center gap-1.5 hover:text-white">
-                <Mail className="h-3.5 w-3.5 shrink-0" /> {businessConfig.ashburnOffice.email}
-              </a>
-              <p className="flex items-start gap-1.5">
-                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                {businessConfig.ashburnOffice.addressLines.join(", ")}
-              </p>
-            </div>
-
-            <p className="text-white/60">
-              Sarco Appliances is currently an online sales and scheduled service business. We do not operate
-              a public walk-in showroom at this time.
+            <p className="footer-business-note">
+              Sarco Appliances is an online sales and scheduled-service business. We do not operate a public
+              walk-in showroom.
             </p>
           </div>
         </div>
-      </PageContainer>
-
-      <div className="border-t border-white/10">
-        <PageContainer className="flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between">
-          <Logo light />
-          <div className="flex flex-wrap gap-4 text-[13px]">
-            <Link href={siteConfig.socials.facebook} className="hover:text-accent-400">
-              Facebook
-            </Link>
-            <Link href={siteConfig.socials.instagram} className="hover:text-accent-400">
-              Instagram
-            </Link>
-            <Link href={siteConfig.socials.youtube} className="hover:text-accent-400">
-              YouTube
-            </Link>
-          </div>
-        </PageContainer>
       </div>
 
-      <div className="border-t border-white/10">
-        <PageContainer className="flex flex-col gap-3 py-4 text-[12px] text-white/60 md:flex-row md:items-center md:justify-between">
-          <p>
+      <div className="footer-brand-row">
+        <div className="footer-brand-row-inner">
+          <Logo light />
+          <div className="social-links">
+            <a
+              href={siteConfig.socials.facebook}
+              className="social-link"
+              aria-label="Sarco Appliances on Facebook"
+            >
+              <FacebookIcon className="h-[18px] w-[18px]" />
+            </a>
+            <a
+              href={siteConfig.socials.instagram}
+              className="social-link"
+              aria-label="Sarco Appliances on Instagram"
+            >
+              <InstagramIcon className="h-[18px] w-[18px]" />
+            </a>
+            <a
+              href={siteConfig.socials.youtube}
+              className="social-link"
+              aria-label="Sarco Appliances on YouTube"
+            >
+              <YoutubeIcon className="h-[18px] w-[18px]" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="footer-legal">
+        <div className="footer-legal-inner">
+          <p className="footer-legal-copyright">
             © {siteConfig.copyrightYear} {siteConfig.name}. All rights reserved.
           </p>
-          <p>We accept Visa, Mastercard, Amex, Discover · Special financing available</p>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/privacy" className="hover:text-white">
-              Privacy
-            </Link>
-            <Link href="/terms" className="hover:text-white">
-              Terms
-            </Link>
-            <Link href="/accessibility" className="hover:text-white">
-              Accessibility
-            </Link>
+          <p className="footer-legal-payment">
+            We accept Visa, Mastercard, American Express, and Discover. Financing options available.
+          </p>
+          <div className="footer-legal-links">
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/terms">Terms</Link>
+            <Link href="/accessibility">Accessibility</Link>
           </div>
-        </PageContainer>
+        </div>
       </div>
     </footer>
-  );
-}
-
-function FooterCol({ title, links }: { title: string; links: { label: string; href: string }[] }) {
-  return (
-    <div>
-      <p className="mb-4 text-[13px] font-bold uppercase tracking-wide text-white/70">{title}</p>
-      <ul className="space-y-2">
-        {links.map((link) => (
-          <li key={link.href}>
-            <Link href={link.href} className="text-[14px] text-white/80 hover:text-white">
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }

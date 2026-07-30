@@ -12,12 +12,8 @@ type CategoryItem = {
   href: string;
   image: string;
   objectPosition?: string;
-  slug?: "refrigeration" | "cooking" | "dishwashers";
 };
 
-// shopCategories (src/data/homepage.ts) is the single source of truth for these
-// images. The first 3 entries get the "featured" layout with custom framing;
-// the remaining 5 render in the plain grid below.
 const objectPositions: Record<string, string> = {
   Refrigeration: "center center",
   Cooking: "center 55%",
@@ -27,10 +23,25 @@ const objectPositions: Record<string, string> = {
 const featuredCategories: CategoryItem[] = shopCategories.slice(0, 3).map((cat) => ({
   ...cat,
   objectPosition: objectPositions[cat.title],
-  slug: cat.href.slice(1) as CategoryItem["slug"],
 }));
 
 const additionalCategories: CategoryItem[] = shopCategories.slice(3);
+
+function FeaturedCategoryTitleShape() {
+  return (
+    <svg
+      className="featured-category-title-shape"
+      viewBox="0 0 330 150"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M52 0 H330 V112 H102 C82 112 68 130 68 150 H0 V52 C0 23 23 0 52 0 Z"
+        fill="#083B82"
+      />
+    </svg>
+  );
+}
 
 function FeaturedCategoryCard({
   title,
@@ -42,16 +53,21 @@ function FeaturedCategoryCard({
   return (
     <article className={cn("featured-category-card", className)}>
       <Link href={href} className="featured-category-card-link">
-        <div className="featured-category-title">{title}</div>
-        <div className="featured-category-image-wrapper">
-          <Image
-            src={image}
-            alt={title}
-            fill
-            sizes="330px"
-            className="featured-category-image"
-            style={{ objectPosition }}
-          />
+        <div className="featured-category-title-shell">
+          <FeaturedCategoryTitleShape />
+          <h3 className="featured-category-title">{title}</h3>
+        </div>
+        <div className="featured-category-image-hover-shell">
+          <div className="featured-category-image-wrapper">
+            <Image
+              src={image}
+              alt={title}
+              fill
+              sizes="330px"
+              className="featured-category-image"
+              style={{ objectPosition }}
+            />
+          </div>
         </div>
       </Link>
     </article>
@@ -80,9 +96,7 @@ export function CategoryGrid() {
 
   return (
     <>
-      {/* Featured: Refrigeration / Cooking / Dishwashers only */}
       <section className="featured-category-section">
-        {/* Desktop staggered composition */}
         <div className="featured-category-inner featured-category-desktop">
           <h2 className="featured-category-heading">Shop by Category</h2>
 
@@ -122,7 +136,6 @@ export function CategoryGrid() {
           </motion.div>
         </div>
 
-        {/* Tablet / mobile featured grid — only the three cards */}
         <div className="featured-category-responsive">
           <h2 className="featured-category-heading-static">Shop by Category</h2>
           <div className="featured-category-responsive-grid">
@@ -137,7 +150,6 @@ export function CategoryGrid() {
         </div>
       </section>
 
-      {/* Additional categories — separate section, never overlaps featured */}
       <section className="additional-category-section">
         <div className="additional-category-inner">
           <h2 className="additional-category-heading">Explore More Categories</h2>
