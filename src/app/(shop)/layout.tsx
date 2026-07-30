@@ -9,6 +9,7 @@ import { CompareBar } from "@/components/catalog/compare-bar";
 import { ShopMain } from "@/components/catalog/shop-main";
 import { UIProvider } from "@/lib/ui-store";
 
+
 export default function ShopLayout({ children }: { children: React.ReactNode }) {
   return (
     <UIProvider>
@@ -17,6 +18,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
       <ShopMain>{children}</ShopMain>
       <SiteFooter />
       <MobileBottomNav />
+      
       <CompareBar />
       {/* Rendered outside the sticky header so their z-index isn't
           trapped inside its stacking context (position: sticky + z-index
