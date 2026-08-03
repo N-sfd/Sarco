@@ -8,6 +8,7 @@ type AssistantLauncherProps = {
   onClick: () => void;
 };
 
+/** Clears mobile bottom nav (~56px) and carousel corner controls. */
 export function AssistantLauncher({ open, onClick }: AssistantLauncherProps) {
   return (
     <button
@@ -18,8 +19,8 @@ export function AssistantLauncher({ open, onClick }: AssistantLauncherProps) {
       className={cn(
         "fixed z-40 grid place-items-center rounded-full bg-icon-blue text-white",
         "shadow-lg transition-all duration-200 hover:-translate-y-1 hover:shadow-xl",
-        "h-13 w-13 bottom-19 right-4",
-        "nav:h-14 nav:w-14 nav:bottom-6 nav:right-6",
+        "h-13 w-13 bottom-24 right-5",
+        "nav:h-14 nav:w-14 nav:bottom-8 nav:right-8",
       )}
     >
       <MessageCircle className="h-6 w-6" />

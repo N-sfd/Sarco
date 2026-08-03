@@ -73,13 +73,13 @@ export function MobileBottomNav() {
                 href={item.href}
                 className={cn(
                   "relative flex min-h-11 flex-col items-center justify-center gap-0.5 py-2 text-[10px] font-semibold",
-                  active ? "text-accent" : "text-muted",
+                  active ? "text-navy" : "text-muted",
                 )}
               >
                 <Icon className="h-5 w-5" />
                 {item.label}
                 {item.href === "/cart" && itemCount > 0 && (
-                  <span className="absolute right-1/4 top-1 grid h-4 min-w-4 place-items-center bg-accent px-0.5 text-[9px] text-white">
+                  <span className="absolute right-1/4 top-1 grid h-4 min-w-4 place-items-center bg-navy px-0.5 text-[9px] text-white">
                     {itemCount}
                   </span>
                 )}

@@ -53,7 +53,7 @@ export function SplitPromoSection({
           <p className="mt-3 text-[13px] leading-[1.65] text-muted">{description}</p>
           <Link
             href={href}
-            className="btn btn-primary mt-5 w-full min-h-10 px-5 text-[13px] sm:w-fit"
+            className="btn btn-navy mt-5 w-full min-h-10 px-5 text-[13px] sm:w-fit"
           >
             {cta}
           </Link>
@@ -99,7 +99,7 @@ export function SplitPromoSection({
             </p>
             <Link
               href={href}
-              className="btn btn-primary mt-5 w-fit min-h-10 px-5 text-[13px]"
+              className="btn btn-navy mt-5 w-fit min-h-10 px-5 text-[13px]"
             >
               {cta}
             </Link>

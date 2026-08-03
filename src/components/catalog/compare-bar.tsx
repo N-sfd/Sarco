@@ -32,7 +32,7 @@ export function CompareBar() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-x-0 bottom-16 z-[70] border-t-2 border-navy/15 bg-white shadow-[0_-8px_28px_rgba(16,40,63,.14)] lg:bottom-0"
+          className="fixed inset-x-0 bottom-16 z-[70] border-t-2 border-navy/15 bg-white shadow-[0_-8px_28px_rgba(15,23,42,.14)] lg:bottom-0"
           role="region"
           aria-label="Compare products"
         >

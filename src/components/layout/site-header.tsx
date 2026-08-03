@@ -2,11 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { UtilityHeader } from "@/components/layout/utility-header";
-import { QuickLinkBar } from "@/components/layout/quick-link-bar";
 import { SearchHeader } from "@/components/search/search-header";
 import { MainNav } from "@/components/layout/main-nav";
 import { cn } from "@/lib/utils";
 
+/**
+ * Two-bar header:
+ * 1) Utility — Location / Support / Account
+ * 2) Main — Logo, Search, Cart icons + category navigation
+ */
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
 
@@ -27,7 +31,6 @@ export function SiteHeader() {
     >
       <div className={cn(scrolled && "hidden nav:block nav:[&_.header-compact-hide]:hidden")}>
         <UtilityHeader />
-        <QuickLinkBar />
       </div>
       <SearchHeader compact={scrolled} />
       <MainNav />

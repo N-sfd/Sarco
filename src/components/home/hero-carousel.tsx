@@ -7,17 +7,26 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { heroSlides } from "@/data/homepage";
 import { useRetailMotion } from "@/lib/motion";
+import { useUiStore } from "@/stores/wishlist";
+
+const OVERLAY_STRENGTH = {
+  light: { start: 0.72, mid: 0.4 },
+  medium: { start: 0.88, mid: 0.58 },
+  strong: { start: 0.94, mid: 0.78 },
+} as const;
 
 export function HeroCarousel() {
   const [index, setIndex] = useState(0);
   const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
   const [userPaused, setUserPaused] = useState(false);
   const slide = heroSlides[index];
   const { shouldReduceMotion } = useRetailMotion();
+  const setServiceModalOpen = useUiStore((s) => s.setServiceModalOpen);
   const touchStartX = useRef<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const paused = hovered || userPaused || shouldReduceMotion;
+  const paused = hovered || focused || userPaused || shouldReduceMotion;
 
   const goTo = (i: number) => setIndex((i + heroSlides.length) % heroSlides.length);
   const next = () => goTo(index + 1);
@@ -54,19 +63,25 @@ export function HeroCarousel() {
     touchStartX.current = null;
   };
 
+  const overlay = OVERLAY_STRENGTH[slide.overlay];
+
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#071828]"
+      className="hero-carousel"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false);
+      }}
       onKeyDown={onKeyDown}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
       aria-roledescription="carousel"
       aria-label="Promotional banners"
     >
-      <div className="relative h-[clamp(500px,45vw,650px)] w-full overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden">
         {/* Crossfade slides */}
         <AnimatePresence mode="sync" initial={false}>
           <motion.div
@@ -97,27 +112,31 @@ export function HeroCarousel() {
                 alt=""
                 fill
                 priority
-                className="h-full w-full object-cover"
-                style={{ objectPosition: "center 50%" }}
+                quality={90}
+                className="hero-slide-image"
+                style={{ objectPosition: slide.objectPosition }}
                 sizes="100vw"
               />
             </motion.div>
           </motion.div>
         </AnimatePresence>
 
-        {/* Overlay — readable left, open right */}
+        {/* Overlay — readable left, open right; strength varies per slide */}
         <div
-          className="pointer-events-none absolute inset-0 z-[2]"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(7, 24, 40, 0.88) 0%, rgba(7, 24, 40, 0.68) 32%, rgba(7, 24, 40, 0.28) 62%, rgba(7, 24, 40, 0.06) 100%)",
-          }}
+          className="hero-overlay"
+          aria-hidden="true"
+          style={
+            {
+              "--hero-overlay-start": overlay.start,
+              "--hero-overlay-mid": overlay.mid,
+            } as React.CSSProperties
+          }
         />
 
         {/* Vertically centered copy */}
-        <div className="pointer-events-none absolute inset-0 z-[3] flex items-center">
-          <div className="page-container w-full">
-            <div className="pointer-events-auto max-w-[640px] overflow-visible pl-12 text-white sm:pl-14 lg:pl-10">
+        <div className="absolute inset-0 z-[3] flex items-center">
+          <div className="hero-content-container">
+            <div className="hero-copy">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={slide.id}
@@ -126,32 +145,28 @@ export function HeroCarousel() {
                   exit={shouldReduceMotion ? undefined : { opacity: 0, y: -8 }}
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <h1
-                    className="overflow-visible font-bold !text-white"
-                    style={{
-                      fontSize: "clamp(40px, 3.4vw, 58px)",
-                      fontWeight: 700,
-                      lineHeight: 1.05,
-                      maxWidth: "620px",
-                      letterSpacing: "-0.025em",
-                      whiteSpace: "normal",
-                      textWrap: "balance",
-                    }}
-                  >
-                    {slide.title}
-                  </h1>
-                  <p
-                    className="mt-4 text-white/94"
-                    style={{ fontSize: "18px", lineHeight: 1.6, maxWidth: "540px" }}
-                  >
-                    {slide.text}
-                  </p>
-                  <Link
-                    href={slide.href}
-                    className="btn btn-primary mt-7 h-12 w-full rounded-[2px] px-7 text-[15px] font-bold sm:w-auto"
-                  >
-                    {slide.cta}
-                  </Link>
+                  <h1 className="hero-heading">{slide.title}</h1>
+                  <p className="hero-description">{slide.text}</p>
+                  <div className="hero-cta-row">
+                    <Link href={slide.href} className="hero-primary-cta">
+                      {slide.cta}
+                    </Link>
+                    {slide.secondaryCta ? (
+                      slide.secondaryCta.action === "service-modal" ? (
+                        <button
+                          type="button"
+                          className="hero-secondary-cta"
+                          onClick={() => setServiceModalOpen(true)}
+                        >
+                          {slide.secondaryCta.label}
+                        </button>
+                      ) : (
+                        <Link href={slide.secondaryCta.href ?? "#"} className="hero-secondary-cta">
+                          {slide.secondaryCta.label}
+                        </Link>
+                      )
+                    ) : null}
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -161,44 +176,42 @@ export function HeroCarousel() {
         <button
           type="button"
           aria-label="Previous slide"
-          className="absolute left-5 top-1/2 z-[4] grid h-12 w-12 -translate-y-1/2 place-items-center border border-white/40 bg-white/95 text-navy shadow-md transition hover:bg-white sm:left-7"
+          className="hero-arrow hero-arrow--prev"
           onClick={prev}
         >
-          <ChevronLeft className="h-6 w-6" />
+          <ChevronLeft className="h-5 w-5" />
         </button>
         <button
           type="button"
           aria-label="Next slide"
-          className="absolute right-5 top-1/2 z-[4] grid h-12 w-12 -translate-y-1/2 place-items-center border border-white/40 bg-white/95 text-navy shadow-md transition hover:bg-white sm:right-7"
+          className="hero-arrow hero-arrow--next"
           onClick={next}
         >
-          <ChevronRight className="h-6 w-6" />
+          <ChevronRight className="h-5 w-5" />
         </button>
 
-        <div className="absolute bottom-5 left-1/2 z-[4] flex -translate-x-1/2 items-center gap-3">
+        <div className="hero-controls">
           <button
             type="button"
             aria-label={userPaused ? "Play slideshow" : "Pause slideshow"}
             aria-pressed={userPaused}
-            className="grid h-7 w-7 place-items-center rounded-full border border-white/50 bg-white/10 text-white transition hover:bg-white/20"
+            className="hero-pause"
             onClick={() => setUserPaused((p) => !p)}
           >
             {userPaused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
           </button>
-          <div className="flex gap-2.5">
-          {heroSlides.map((s, i) => (
-            <button
-              key={s.id}
-              type="button"
-              aria-label={`Go to slide ${i + 1}`}
-              aria-current={i === index}
-              className="h-2.5 w-2.5 rounded-full transition-colors"
-              style={{
-                background: i === index ? "#E96A50" : "rgba(255,255,255,0.75)",
-              }}
-              onClick={() => goTo(i)}
-            />
-          ))}
+          <div className="hero-dots">
+            {heroSlides.map((s, i) => (
+              <button
+                key={s.id}
+                type="button"
+                aria-label={`Go to slide ${i + 1}: ${s.title.replace("\n", " ")}`}
+                aria-current={i === index}
+                data-active={i === index ? "true" : "false"}
+                className="hero-dot"
+                onClick={() => goTo(i)}
+              />
+            ))}
           </div>
         </div>
       </div>

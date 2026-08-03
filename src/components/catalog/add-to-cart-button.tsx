@@ -24,7 +24,7 @@ export function AddToCartButton({
     return (
       <a
         href={businessConfig.primaryContact.phoneHref}
-        className="btn btn-primary btn-lg text-center"
+        className="btn btn-navy btn-lg text-center"
       >
         Call {businessConfig.primaryContact.phoneDisplay}
       </a>
@@ -33,7 +33,7 @@ export function AddToCartButton({
 
   if (product.availability === "special_order") {
     return (
-      <Link href="/contact" className="btn btn-primary btn-lg">
+      <Link href="/contact" className="btn btn-navy btn-lg">
         Inquire / Special Order
       </Link>
     );

@@ -27,12 +27,12 @@ export function PromoBannerGrid() {
   return (
     <section className="bg-white pb-16">
       <PageContainer>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {promos.map((promo) => (
             <Link
               key={promo.title}
               href={promo.href}
-              className="group relative min-h-[190px] overflow-hidden rounded-[4px]"
+              className="group relative w-full min-h-[190px] overflow-hidden rounded-[4px]"
               style={{ aspectRatio: "2.8 / 1" }}
             >
               <Image
@@ -48,7 +48,7 @@ export function PromoBannerGrid() {
                 <p className="mt-2 max-w-sm text-[14px] leading-relaxed text-white/90 md:text-[15px]">
                   {promo.text}
                 </p>
-                <span className="mt-4 inline-flex w-fit items-center bg-accent px-5 py-2.5 text-[14px] font-bold">
+                <span className="mt-4 inline-flex w-fit items-center border border-white/80 bg-white/10 px-5 py-2.5 text-[14px] font-bold backdrop-blur-sm">
                   {promo.cta}
                 </span>
               </div>

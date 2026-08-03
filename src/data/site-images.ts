@@ -13,10 +13,17 @@ import { catalogImages } from "@/data/products";
  */
 export const siteImages = {
   heroInStock: "/images/hero-kitchen-suite.jpg",
-  heroRefrigeration: "/images/cat-refrigeration.jpg",
+  // Was cat-refrigeration.jpg — a portrait shot of a retro teal fridge, wrong
+  // for a rebates-on-premium-appliances slide. Swapped for a distinct,
+  // unused-elsewhere premium smart fridge.
+  heroRefrigeration: "/images/product-fridge-black.jpg",
   heroLaundry: "/images/cat-laundry.jpg",
   heroCooking: "/images/cat-cooking.jpg",
-  heroRepair: "/images/value-repair.jpg",
+  // Was value-repair.jpg — a blurry macro shot of a camera circuit board, not
+  // even an appliance. promo-repair-technician.jpg is the only technician
+  // photo in the library; the resulting reuse with `promoRepair` is
+  // registered below in `allowedDuplicates`.
+  heroRepair: "/images/promo-repair-technician.jpg",
 
   categoryRefrigeration: "/images/category-refrigeration.jpg",
   categoryCooking: "/images/category-cooking.jpg",
@@ -78,6 +85,9 @@ export function checkForDuplicateImages(
     // Dishwasher category tile intentionally mirrors the primary product photo
     // until a distinct lifestyle/category asset is available.
     ["categoryDishwashers", "featuredDishwasher"],
+    // Only one technician photo exists — the hero repair slide and the
+    // dedicated repair promo section intentionally share it.
+    ["heroRepair", "promoRepair"],
   ],
 ) {
   if (process.env.NODE_ENV === "production") return;

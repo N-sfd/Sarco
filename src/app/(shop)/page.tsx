@@ -14,11 +14,11 @@ import { BuildersPromo } from "@/components/home/builders-promo";
 import { ReviewCarousel } from "@/components/home/reviews-slider";
 
 /**
- * Homepage order (1–5 in SiteHeader):
- * 6 Rebate · 7 Hero · 8 Services · 9 Financing/Security promos
- * 10 Kitchen Packages · 11 Featured · 12 Laundry · 13 Categories
- * 14 Grills · 15 Repair · 16 Securing Your Home · 17 Builders
- * 18 Reviews · 19 Footer
+ * Homepage order:
+ * Rebate · Hero · Services · Financing/Security promos
+ * Kitchen Packages · Featured · Laundry · Categories
+ * Grills · Repair · Securing Your Home · Builders
+ * Reviews · Footer
  */
 export default function HomePage() {
   return (

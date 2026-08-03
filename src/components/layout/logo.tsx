@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
  * Sarco mark — solid navy block with opposite rounded corners
  * and a four-point spark cut out of the center (Spichers-style).
  */
-function SarcoMark({ className, color = "#10283F" }: { className?: string; color?: string }) {
+function SarcoMark({ className, color = "#0F172A" }: { className?: string; color?: string }) {
   return (
     <svg
       viewBox="0 0 52 56"
@@ -53,7 +53,7 @@ export function Logo({
   light?: boolean;
   compact?: boolean;
 }) {
-  const color = light ? "#FFFFFF" : "#10283F";
+  const color = light ? "#FFFFFF" : "#0F172A";
 
   return (
     <Link
@@ -72,7 +72,7 @@ export function Logo({
         className={cn(
           "select-none font-extrabold uppercase leading-none tracking-[-0.05em]",
           compact ? "text-[26px]" : "text-[34px]",
-          light ? "text-white" : "text-[#10283F]",
+          light ? "text-white" : "text-[#0F172A]",
         )}
       >
         SARCO

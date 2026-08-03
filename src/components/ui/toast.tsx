@@ -5,7 +5,7 @@ import { CheckCircle2 } from "lucide-react";
 
 export function Toast({ message }: { message: string | null }) {
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-20 z-[90] flex justify-center nav:bottom-6" aria-live="polite">
+    <div className="pointer-events-none fixed inset-x-0 bottom-28 z-[90] flex justify-center nav:bottom-8" aria-live="polite">
       <AnimatePresence>
         {message && (
           <motion.div

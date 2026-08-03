@@ -37,7 +37,7 @@ function FeaturedCategoryTitleShape() {
     >
       <path
         d="M52 0 H330 V112 H102 C82 112 68 130 68 150 H0 V52 C0 23 23 0 52 0 Z"
-        fill="#083B82"
+        fill="#2563EB"
       />
     </svg>
   );

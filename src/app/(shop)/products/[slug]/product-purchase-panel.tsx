@@ -83,7 +83,7 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
                 className={`h-3.5 w-3.5 ${
                   i < Math.round(product.rating)
                     ? "fill-[#d4a017] text-[#d4a017]"
-                    : "fill-transparent text-[#cbd2d9]"
+                    : "fill-transparent text-[#cbd5e1]"
                 }`}
                 strokeWidth={1.75}
               />
@@ -97,7 +97,7 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
         <div className="mt-4">
           {product.salePrice != null ? (
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-bold text-accent">{formatCurrency(product.salePrice)}</span>
+              <span className="text-3xl font-bold text-navy">{formatCurrency(product.salePrice)}</span>
               <span className="text-lg text-muted line-through">{formatCurrency(product.price)}</span>
               <span className="text-sm font-semibold text-success">Save {formatCurrency(savings)}</span>
             </div>

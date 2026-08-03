@@ -76,14 +76,14 @@ export function AssistantPanel({
       tabIndex={-1}
       className={cn(
         "fixed z-40 flex flex-col overflow-hidden border border-[#E1E7EE] bg-white outline-none",
-        "shadow-[0_24px_70px_rgba(8,35,70,0.22)]",
+        "shadow-[0_24px_70px_rgba(15,23,42,0.22)]",
         "inset-0 h-full w-full rounded-none", // phone: full screen
-        // tablet (≥640px): floating card positioned above the launcher's mobile slot
-        // (launcher: bottom-19/right-4, 52px tall → 76+52+12 = 140px = bottom-35)
-        "sm:inset-auto sm:bottom-35 sm:right-4 sm:h-[min(680px,calc(100vh-48px))] sm:w-[min(440px,calc(100vw-32px))] sm:rounded-3xl",
-        // desktop (≥1320px, matches launcher's own breakpoint): reposition above its desktop slot
-        // (launcher: bottom-6/right-6, 56px tall → 24+56+12 = 92px = bottom-23)
-        "nav:bottom-23 nav:right-6",
+        // tablet (≥640px): floating card above launcher
+        // (launcher: bottom-24/right-5, 52px → 96+52+12 = 160px ≈ bottom-40)
+        "sm:inset-auto sm:bottom-40 sm:right-5 sm:h-[min(680px,calc(100vh-48px))] sm:w-[min(440px,calc(100vw-32px))] sm:rounded-3xl",
+        // desktop (≥1320px): above desktop launcher slot
+        // (launcher: bottom-8/right-8, 56px → 32+56+12 = 100px ≈ bottom-25)
+        "nav:bottom-25 nav:right-8",
       )}
     >
       <div className="flex h-18 shrink-0 items-center justify-between gap-3 bg-navy px-5 text-white">
