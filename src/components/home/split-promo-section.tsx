@@ -25,12 +25,14 @@ const bgMap: Record<Background, string> = {
   white: "bg-white",
 };
 
-// Image sits in front; one large rounded corner toward the text box.
 const imageCornerClass = {
   left: "rounded-br-[28px] sm:rounded-br-[40px] min-[900px]:rounded-br-[72px]",
   right: "rounded-bl-[28px] sm:rounded-bl-[40px] min-[900px]:rounded-bl-[72px]",
 };
 
+/**
+ * One semantic section — responsive layout via CSS, not duplicate DOM trees.
+ */
 export function SplitPromoSection({
   title,
   description,
@@ -46,51 +48,21 @@ export function SplitPromoSection({
 
   return (
     <section className="mb-10 w-full bg-transparent md:mb-14">
-      {/* Mobile: stacked */}
-      <div className="min-[900px]:hidden">
-        <div className={cn("px-7 py-7", bgMap[background])}>
-          <h2 className="text-[22px] font-bold text-navy">{title}</h2>
-          <p className="mt-3 text-[13px] leading-[1.65] text-muted">{description}</p>
-          <Link
-            href={href}
-            className="btn btn-navy mt-5 w-full min-h-10 px-5 text-[13px] sm:w-fit"
-          >
-            {cta}
-          </Link>
-        </div>
+      <div className="relative flex flex-col min-[900px]:block">
         <div
           className={cn(
-            "relative mt-3 h-[240px] w-full overflow-hidden",
-            imageCornerClass[imagePosition],
-          )}
-        >
-          <Image
-            src={image}
-            alt=""
-            fill
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-        </div>
-      </div>
-
-      {/* Desktop: text box behind, image in front (shifted slightly down) */}
-      <div className="relative hidden min-[900px]:block">
-        {/* Backend text box — taller so it peeks above & below the image */}
-        <div
-          className={cn(
-            "relative flex min-h-[290px] w-[60%] items-center",
+            "order-1 px-7 py-7",
             bgMap[background],
-            imageOnRight ? "mr-auto" : "ml-auto",
+            "min-[900px]:relative min-[900px]:flex min-[900px]:min-h-[290px] min-[900px]:w-[60%] min-[900px]:items-center min-[900px]:px-0 min-[900px]:py-0",
+            imageOnRight ? "min-[900px]:mr-auto" : "min-[900px]:ml-auto",
           )}
         >
           <div
             className={cn(
-              "w-full py-8",
+              "w-full min-[900px]:py-8",
               imageOnRight
-                ? "px-10 min-[1100px]:px-14"
-                : // Clear image overlap when image is on the left
-                  "pl-[30%] pr-10 min-[1100px]:pl-[32%] min-[1100px]:pr-14",
+                ? "min-[900px]:px-10 min-[1100px]:px-14"
+                : "min-[900px]:pl-[30%] min-[900px]:pr-10 min-[1100px]:pl-[32%] min-[1100px]:pr-14",
             )}
           >
             <h2 className="text-[22px] font-bold text-navy md:text-[26px]">{title}</h2>
@@ -99,20 +71,20 @@ export function SplitPromoSection({
             </p>
             <Link
               href={href}
-              className="btn btn-navy mt-5 w-fit min-h-10 px-5 text-[13px]"
+              className="btn btn-navy mt-5 w-full min-h-10 px-5 text-[13px] sm:w-fit"
             >
               {cta}
             </Link>
           </div>
         </div>
 
-        {/* Frontend image — extends a little past the text box bottom */}
         <div
           className={cn(
-            "absolute z-10 overflow-hidden",
-            "top-[36px] -bottom-4 w-[54%]",
-            imageOnRight ? "right-0" : "left-0",
+            "relative order-2 mt-3 h-[240px] w-full overflow-hidden",
             imageCornerClass[imagePosition],
+            "min-[900px]:absolute min-[900px]:z-10 min-[900px]:mt-0",
+            "min-[900px]:top-[36px] min-[900px]:-bottom-4 min-[900px]:h-auto min-[900px]:w-[54%]",
+            imageOnRight ? "min-[900px]:right-0" : "min-[900px]:left-0",
           )}
         >
           {shouldReduceMotion ? (
@@ -121,11 +93,11 @@ export function SplitPromoSection({
               alt=""
               fill
               className="object-cover object-center"
-              sizes="54vw"
+              sizes="(max-width: 899px) 100vw, 54vw"
             />
           ) : (
             <motion.div
-              className="absolute inset-[-3%]"
+              className="absolute inset-0 min-[900px]:inset-[-3%]"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
@@ -136,7 +108,7 @@ export function SplitPromoSection({
                 alt=""
                 fill
                 className="object-cover object-center"
-                sizes="54vw"
+                sizes="(max-width: 899px) 100vw, 54vw"
               />
             </motion.div>
           )}

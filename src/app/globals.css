@@ -629,42 +629,23 @@ h1, h2, h3, h4, h5 {
   width: 100%;
   max-width: 1360px;
   margin-inline: auto;
-}
-
-.featured-category-desktop {
-  display: none;
-}
-
-.featured-category-responsive {
-  display: block;
-  width: 100%;
-  max-width: 1360px;
-  margin-inline: auto;
   padding-inline: 20px;
 }
 
 .featured-category-heading {
-  position: absolute;
-  top: 18px;
-  left: 5%;
-  margin: 0;
-  font-size: 30px;
+  position: relative;
+  top: auto;
+  left: auto;
+  margin: 0 0 28px;
+  font-size: 26px;
   line-height: 1.2;
   font-weight: 700;
   color: #0f172a;
   z-index: 5;
 }
 
-.featured-category-heading-static {
-  margin: 0 0 28px;
-  font-size: 26px;
-  line-height: 1.2;
-  font-weight: 700;
-  color: #0f172a;
-  text-align: left;
-}
-
 .kitchen-essentials-panel {
+  display: none;
   position: absolute;
   top: 0;
   left: 36%;
@@ -701,34 +682,24 @@ h1, h2, h3, h4, h5 {
   clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 100%);
 }
 
+.featured-category-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
 .featured-category-card--refrigeration,
 .featured-category-card--cooking,
 .featured-category-card--dishwashers {
-  position: absolute;
-}
-
-.featured-category-card--refrigeration {
-  top: 132px;
-  left: 3%;
-  width: 330px;
-  height: 555px;
-  z-index: 3;
-}
-
-.featured-category-card--cooking {
-  top: 178px;
-  left: 36%;
-  width: 330px;
-  height: 555px;
-  z-index: 4;
-}
-
-.featured-category-card--dishwashers {
-  top: 132px;
-  right: 3%;
-  width: 330px;
-  height: 555px;
-  z-index: 3;
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  width: 100%;
+  max-width: 360px;
+  height: 480px;
+  margin-inline: auto;
+  z-index: 1;
 }
 
 .featured-category-card--refrigeration:hover,
@@ -762,14 +733,6 @@ h1, h2, h3, h4, h5 {
   height: 100%;
   color: inherit;
   text-decoration: none;
-}
-
-.featured-category-card--responsive {
-  position: relative;
-  width: 100%;
-  max-width: 360px;
-  height: 500px;
-  margin-inline: auto;
 }
 
 /* Navy title stays behind the image */
@@ -850,13 +813,6 @@ h1, h2, h3, h4, h5 {
   transform: scale(1);
   transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
-}
-
-.featured-category-responsive-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  justify-items: center;
 }
 
 /* Additional categories — separate flow section */
@@ -974,19 +930,27 @@ h1, h2, h3, h4, h5 {
     --featured-title-shape-h: 132px;
   }
 
-  .featured-category-heading-static {
-    text-align: left;
+  .featured-category-heading {
     font-size: 28px;
   }
 
-  .featured-category-responsive-grid {
+  .featured-category-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     justify-items: stretch;
   }
 
-  .featured-category-card--responsive {
+  .featured-category-card--refrigeration,
+  .featured-category-card--cooking,
+  .featured-category-card--dishwashers {
     max-width: none;
     height: 480px;
+    margin-inline: 0;
+  }
+
+  .featured-category-card--dishwashers {
+    grid-column: 1 / -1;
+    max-width: 360px;
+    margin-inline: auto;
   }
 
   .additional-category-section {
@@ -1008,14 +972,52 @@ h1, h2, h3, h4, h5 {
 
   .featured-category-inner {
     min-height: 750px;
+    padding-inline: 0;
   }
 
-  .featured-category-desktop {
+  .featured-category-heading {
+    position: absolute;
+    top: 18px;
+    left: 5%;
+    margin: 0;
+    font-size: 30px;
+  }
+
+  .kitchen-essentials-panel {
     display: block;
   }
 
-  .featured-category-responsive {
-    display: none;
+  .featured-category-cards {
+    display: contents;
+  }
+
+  .featured-category-card--refrigeration,
+  .featured-category-card--cooking,
+  .featured-category-card--dishwashers {
+    position: absolute;
+    max-width: none;
+    margin-inline: 0;
+    height: 555px;
+    width: 330px;
+  }
+
+  .featured-category-card--refrigeration {
+    top: 132px;
+    left: 3%;
+    z-index: 3;
+  }
+
+  .featured-category-card--cooking {
+    top: 178px;
+    left: 36%;
+    z-index: 4;
+  }
+
+  .featured-category-card--dishwashers {
+    top: 132px;
+    right: 3%;
+    left: auto;
+    z-index: 3;
   }
 
   .additional-category-section {
@@ -1038,7 +1040,7 @@ h1, h2, h3, h4, h5 {
     --featured-title-shape-h: 114px;
   }
 
-  .featured-category-heading-static {
+  .featured-category-heading {
     text-align: center;
     font-size: 24px;
   }
@@ -1048,7 +1050,9 @@ h1, h2, h3, h4, h5 {
     font-size: 16px;
   }
 
-  .featured-category-card--responsive {
+  .featured-category-card--refrigeration,
+  .featured-category-card--cooking,
+  .featured-category-card--dishwashers {
     height: 500px;
   }
 }
@@ -1088,10 +1092,38 @@ h1, h2, h3, h4, h5 {
 }
 
 .footer-administrative-office h3 {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   color: #ffffff;
   font-size: 14px;
   font-weight: 700;
+}
+
+.footer-office-compact {
+  padding-block: 0 4px;
+}
+
+.footer-office-line {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13.5px;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.footer-office-line:hover,
+.footer-office-line:focus-visible {
+  color: #ffffff;
+  outline: none;
+}
+
+.footer-office-address {
+  display: block;
+  margin-top: 8px;
+  max-width: 260px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13.5px;
+  line-height: 1.45;
 }
 
 .footer-column-trigger {
@@ -1240,30 +1272,57 @@ a.footer-contact-row:focus-visible {
 }
 
 .footer-business-note {
-  max-width: 280px;
-  margin-top: 18px;
-  padding-top: 16px;
+  margin-top: 14px;
+  padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.68);
-  font-size: 13px;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 12.5px;
   line-height: 1.55;
+  max-width: 280px;
 }
 
-/* Brand row */
+/* Brand row — connects logo + socials to main footer */
 .footer-brand-row {
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 22px 0;
 }
 
 .footer-brand-row-inner {
   width: 100%;
   max-width: 1360px;
-  min-height: 72px;
   margin-inline: auto;
-  padding: 14px 28px;
+  padding: 0 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 32px;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer-logo img,
+.footer-logo svg {
+  height: 58px;
+  width: auto;
+}
+
+.footer-tagline {
+  margin: 10px 0 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.64);
+  letter-spacing: 0.02em;
+  line-height: 1.3;
 }
 
 .social-links {
@@ -1276,27 +1335,29 @@ a.footer-contact-row:focus-visible {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.04);
   color: #ffffff;
   transition:
     background 180ms ease,
     border-color 180ms ease,
+    color 180ms ease,
     transform 180ms ease;
 }
 
 .social-link:hover,
 .social-link:focus-visible {
-  background: #38bdf8;
-  border-color: #38bdf8;
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
   transform: translateY(-2px);
   outline: none;
 }
 
-/* Legal bar */
+/* Legal bar — balanced three-column row */
 .footer-legal {
   background: #020617;
 }
@@ -1304,25 +1365,35 @@ a.footer-contact-row:focus-visible {
 .footer-legal-inner {
   width: 100%;
   max-width: 1360px;
-  min-height: 46px;
+  min-height: 48px;
   margin-inline: auto;
-  padding: 10px 28px;
+  padding: 12px 28px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr);
   align-items: center;
-  gap: 24px;
+  gap: 20px;
   font-size: 12.5px;
   color: rgba(255, 255, 255, 0.68);
 }
 
+.footer-legal-copyright {
+  margin: 0;
+}
+
 .footer-legal-payment {
+  margin: 0;
   text-align: center;
 }
 
 .footer-legal-links {
   display: flex;
   justify-content: flex-end;
-  gap: 16px;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-legal-sep {
+  color: rgba(255, 255, 255, 0.35);
 }
 
 .footer-legal-links a {
@@ -1401,10 +1472,14 @@ a.footer-contact-row:focus-visible {
   .footer-brand-row-inner {
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     text-align: center;
-    gap: 14px;
-    min-height: 0;
-    padding-block: 18px;
+    gap: 16px;
+    padding-block: 0;
+  }
+
+  .footer-brand {
+    align-items: center;
   }
 
   .footer-legal-inner {
@@ -1412,7 +1487,11 @@ a.footer-contact-row:focus-visible {
     justify-items: center;
     text-align: center;
     gap: 8px;
-    padding-block: 12px;
+    padding-block: 14px;
+  }
+
+  .footer-legal-payment {
+    text-align: center;
   }
 
   .footer-legal-links {

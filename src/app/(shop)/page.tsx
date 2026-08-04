@@ -15,10 +15,11 @@ import { ReviewCarousel } from "@/components/home/reviews-slider";
 
 /**
  * Homepage order:
- * Rebate · Hero · Services · Financing/Security promos
- * Kitchen Packages · Featured · Laundry · Categories
- * Grills · Repair · Securing Your Home · Builders
- * Reviews · Footer
+ * 1 Hero · 2 Service benefits · 3 Financing/sales banners
+ * 4 Kitchen Packages · 5 Top Deals · 6 Lighten Your Workload
+ * 7 Shop by Category · 8 Explore More Categories
+ * 9 Grills · 10 Appliance Repair · 11 Securing Your Home
+ * 12 Builders · 13 Customer Reviews · 14 Footer
  */
 export default function HomePage() {
   return (
@@ -33,8 +34,8 @@ export default function HomePage() {
       <FeaturedProducts />
 
       <SplitPromoSection
-        title="Simplify Laundry Day with Smart & Efficient Washers & Dryers"
-        description="Discover high-capacity front-loaders, stackable units, and smart laundry pairs built to save time and energy."
+        title="Lighten Your Workload"
+        description="Explore washers, dryers, laundry pairs, and smart laundry appliances designed to simplify every load."
         cta="Shop Laundry"
         href="/laundry"
         image={siteImages.promoLaundry}

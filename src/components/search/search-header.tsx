@@ -135,7 +135,7 @@ export function SearchHeader({ compact = false }: { compact?: boolean }) {
           <span className="text-lg leading-none">☰</span>
         </button>
         <div className="hidden sm:block">
-          <Logo compact={compact} tagline />
+          <Logo compact={compact} />
         </div>
         <Link href="/" className="text-[22px] font-bold uppercase tracking-[-0.04em] text-[#0F172A] sm:hidden">
           SARCO
@@ -186,7 +186,7 @@ export function SearchHeader({ compact = false }: { compact?: boolean }) {
           compact ? "min-h-[78px] py-2" : "min-h-[86px] py-3",
         )}
       >
-        <Logo compact={compact} tagline />
+        <Logo compact={compact} />
 
         <div className="relative min-w-0">
           <form

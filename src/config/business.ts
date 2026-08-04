@@ -22,9 +22,8 @@ export const businessConfig = {
     emailHref: "mailto:Rome@consultamerica.net",
     addressLines: [
       "20130 Lakeview Center Plaza",
-      "Suite 400",
-      "Ashburn, VA 20147"
-    ]
+      "Suite 400 · Ashburn, VA 20147",
+    ],
   }
 } as const;
 

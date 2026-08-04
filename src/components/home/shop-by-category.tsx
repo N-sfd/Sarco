@@ -27,6 +27,12 @@ const featuredCategories: CategoryItem[] = shopCategories.slice(0, 3).map((cat) 
 
 const additionalCategories: CategoryItem[] = shopCategories.slice(3);
 
+const featuredSlotClass = [
+  "featured-category-card--refrigeration",
+  "featured-category-card--cooking",
+  "featured-category-card--dishwashers",
+] as const;
+
 function FeaturedCategoryTitleShape() {
   return (
     <svg
@@ -63,7 +69,7 @@ function FeaturedCategoryCard({
               src={image}
               alt={title}
               fill
-              sizes="330px"
+              sizes="(max-width: 1099px) 50vw, 330px"
               className="featured-category-image"
               style={{ objectPosition }}
             />
@@ -91,13 +97,17 @@ function AdditionalCategoryCard({ title, href, image }: CategoryItem) {
   );
 }
 
+/**
+ * One "Shop by Category" heading + one card set.
+ * Desktop composition vs mobile grid is CSS-only (no duplicate DOM).
+ */
 export function CategoryGrid() {
   const { shouldReduceMotion } = useRetailMotion();
 
   return (
     <>
       <section className="featured-category-section">
-        <div className="featured-category-inner featured-category-desktop">
+        <div className="featured-category-inner">
           <h2 className="featured-category-heading">Shop by Category</h2>
 
           <div className="kitchen-essentials-panel" aria-hidden>
@@ -105,46 +115,22 @@ export function CategoryGrid() {
             <div className="kitchen-essentials-curve" />
           </div>
 
-          <motion.div
-            className="featured-category-card--refrigeration"
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.55, ease: retailEase }}
-          >
-            <FeaturedCategoryCard {...featuredCategories[0]} className="h-full w-full" />
-          </motion.div>
-
-          <motion.div
-            className="featured-category-card--cooking"
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.55, delay: 0.08, ease: retailEase }}
-          >
-            <FeaturedCategoryCard {...featuredCategories[1]} className="h-full w-full" />
-          </motion.div>
-
-          <motion.div
-            className="featured-category-card--dishwashers"
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.55, delay: 0.16, ease: retailEase }}
-          >
-            <FeaturedCategoryCard {...featuredCategories[2]} className="h-full w-full" />
-          </motion.div>
-        </div>
-
-        <div className="featured-category-responsive">
-          <h2 className="featured-category-heading-static">Shop by Category</h2>
-          <div className="featured-category-responsive-grid">
-            {featuredCategories.map((cat) => (
-              <FeaturedCategoryCard
+          <div className="featured-category-cards">
+            {featuredCategories.map((cat, index) => (
+              <motion.div
                 key={cat.href}
-                {...cat}
-                className="featured-category-card--responsive"
-              />
+                className={featuredSlotClass[index]}
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 18 + index * 4 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{
+                  duration: 0.55,
+                  delay: shouldReduceMotion ? 0 : index * 0.08,
+                  ease: retailEase,
+                }}
+              >
+                <FeaturedCategoryCard {...cat} className="h-full w-full" />
+              </motion.div>
             ))}
           </div>
         </div>

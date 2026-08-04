@@ -12,9 +12,11 @@ export const siteConfig = {
   email: "service@sarco.co",
   url: "https://sarco.co",
   socials: {
-    facebook: "https://facebook.com/",
-    instagram: "https://instagram.com/",
-    youtube: "https://youtube.com/",
+    // Only set real profile paths (e.g. https://facebook.com/SarcoAppliances).
+    // Bare platform roots are ignored by the footer.
+    facebook: "",
+    instagram: "",
+    youtube: "",
   },
   features: {
     smartHomeEnabled: true,

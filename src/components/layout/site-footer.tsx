@@ -48,10 +48,41 @@ const columns = [
   { id: "company", title: "Company", links: companyLinks },
 ];
 
+/** True only for a real profile path — not bare facebook.com / youtube.com roots. */
+function isRealSocialProfile(url: string | undefined | null): url is string {
+  if (!url?.trim()) return false;
+  try {
+    const parsed = new URL(url);
+    const path = parsed.pathname.replace(/\/+$/, "");
+    return path.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+const socialItems = [
+  {
+    key: "facebook",
+    href: siteConfig.socials.facebook,
+    label: "Sarco Appliances on Facebook",
+    Icon: FacebookIcon,
+  },
+  {
+    key: "instagram",
+    href: siteConfig.socials.instagram,
+    label: "Sarco Appliances on Instagram",
+    Icon: InstagramIcon,
+  },
+  {
+    key: "youtube",
+    href: siteConfig.socials.youtube,
+    label: "Sarco Appliances on YouTube",
+    Icon: YoutubeIcon,
+  },
+].filter((item) => isRealSocialProfile(item.href));
+
 export function SiteFooter() {
   const setServiceModalOpen = useUiStore((s) => s.setServiceModalOpen);
-  // One-open-at-a-time accordion on mobile; irrelevant at >=720px where all
-  // panels are forced open via CSS (see .footer-column-panel media rule).
   const [openColumn, setOpenColumn] = useState<string | null>(null);
 
   return (
@@ -137,26 +168,18 @@ export function SiteFooter() {
           <div className="footer-col-contact footer-administrative-office">
             <p className="footer-column-title">Office &amp; Business Information</p>
 
-            <div className="footer-contact-group">
+            <div className="footer-contact-group footer-office-compact">
               <h3>{businessConfig.ashburnOffice.label}</h3>
-              <a href={businessConfig.ashburnOffice.phoneHref} className="footer-contact-row">
-                <Phone className="footer-contact-icon h-4 w-4 shrink-0" aria-hidden />
-                <span>{businessConfig.ashburnOffice.phoneDisplay}</span>
+              <a href={businessConfig.ashburnOffice.phoneHref} className="footer-office-line">
+                {businessConfig.ashburnOffice.phoneDisplay}
               </a>
-              <a href={businessConfig.ashburnOffice.emailHref} className="footer-contact-row">
-                <Mail className="footer-contact-icon h-4 w-4 shrink-0" aria-hidden />
-                <span>{businessConfig.ashburnOffice.email}</span>
+              <a href={businessConfig.ashburnOffice.emailHref} className="footer-office-line">
+                {businessConfig.ashburnOffice.email}
               </a>
-              <div className="footer-contact-row">
-                <MapPin className="footer-contact-icon h-4 w-4 shrink-0" aria-hidden />
-                <address className="footer-address not-italic">
-                  {businessConfig.ashburnOffice.addressLines.map((line) => (
-                    <span key={line} className="block">
-                      {line}
-                    </span>
-                  ))}
-                </address>
-              </div>
+              <address className="footer-office-address not-italic">
+                <span className="block">20130 Lakeview Center Plaza</span>
+                <span className="block">Suite 400 · Ashburn, VA 20147</span>
+              </address>
             </div>
 
             <p className="footer-business-note">
@@ -169,30 +192,26 @@ export function SiteFooter() {
 
       <div className="footer-brand-row">
         <div className="footer-brand-row-inner">
-          <Logo light tagline />
-          <div className="social-links">
-            <a
-              href={siteConfig.socials.facebook}
-              className="social-link"
-              aria-label="Sarco Appliances on Facebook"
-            >
-              <FacebookIcon className="h-[18px] w-[18px]" />
-            </a>
-            <a
-              href={siteConfig.socials.instagram}
-              className="social-link"
-              aria-label="Sarco Appliances on Instagram"
-            >
-              <InstagramIcon className="h-[18px] w-[18px]" />
-            </a>
-            <a
-              href={siteConfig.socials.youtube}
-              className="social-link"
-              aria-label="Sarco Appliances on YouTube"
-            >
-              <YoutubeIcon className="h-[18px] w-[18px]" />
-            </a>
+          <div className="footer-brand">
+            <Logo variant="footer" />
+            <p className="footer-tagline">Sales • Delivery • Installation • Repair</p>
           </div>
+          {socialItems.length > 0 ? (
+            <div className="social-links" aria-label="Social media">
+              {socialItems.map(({ key, href, label, Icon }) => (
+                <a
+                  key={key}
+                  href={href}
+                  className="social-link"
+                  aria-label={label}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Icon className="h-[18px] w-[18px]" />
+                </a>
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
 
@@ -206,7 +225,13 @@ export function SiteFooter() {
           </p>
           <div className="footer-legal-links">
             <Link href="/privacy">Privacy</Link>
+            <span aria-hidden className="footer-legal-sep">
+              ·
+            </span>
             <Link href="/terms">Terms</Link>
+            <span aria-hidden className="footer-legal-sep">
+              ·
+            </span>
             <Link href="/accessibility">Accessibility</Link>
           </div>
         </div>
