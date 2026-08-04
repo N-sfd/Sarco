@@ -112,7 +112,7 @@ export function QuickViewModal() {
                     className={`h-3.5 w-3.5 ${
                       i < Math.round(product.rating)
                         ? "fill-[#d4a017] text-[#d4a017]"
-                        : "fill-transparent text-[#cbd2d9]"
+                        : "fill-transparent text-[#cbd5e1]"
                     }`}
                     strokeWidth={1.75}
                   />

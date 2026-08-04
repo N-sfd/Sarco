@@ -4,8 +4,8 @@ import { siteImages } from "@/data/site-images";
 export function GrillsPromo() {
   return (
     <SplitPromoSection
-      title="Elevate Your Outdoor Living with Built-In & Freestanding Grills"
-      description="Premium grills, smokers, and outdoor kitchen appliances designed for performance and durability."
+      title="Grills"
+      description="Elevate your craft and take your outdoor space to the next level with grills and smokers that boast superior craftsmanship."
       cta="Shop Grills"
       href="/grills"
       image={siteImages.promoGrills}

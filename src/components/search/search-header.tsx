@@ -135,9 +135,9 @@ export function SearchHeader({ compact = false }: { compact?: boolean }) {
           <span className="text-lg leading-none">☰</span>
         </button>
         <div className="hidden sm:block">
-          <Logo compact={compact} />
+          <Logo compact={compact} tagline />
         </div>
-        <Link href="/" className="text-[22px] font-bold uppercase tracking-[-0.04em] text-[#10283F] sm:hidden">
+        <Link href="/" className="text-[22px] font-bold uppercase tracking-[-0.04em] text-[#0F172A] sm:hidden">
           SARCO
         </Link>
         <form
@@ -171,7 +171,7 @@ export function SearchHeader({ compact = false }: { compact?: boolean }) {
           </div>
           <button
             type="submit"
-            className="flex h-[52px] w-[120px] items-center justify-center gap-2 bg-[#E96A50] text-[15px] font-bold text-white transition-transform duration-200 hover:scale-[1.02] hover:bg-[#D9583E]"
+            className="flex h-[52px] w-[120px] items-center justify-center gap-2 bg-navy text-[15px] font-bold text-white transition-transform duration-200 hover:scale-[1.02] hover:bg-[#183A58]"
           >
             <Search className="h-5 w-5" />
             Search
@@ -186,7 +186,7 @@ export function SearchHeader({ compact = false }: { compact?: boolean }) {
           compact ? "min-h-[78px] py-2" : "min-h-[86px] py-3",
         )}
       >
-        <Logo compact={compact} />
+        <Logo compact={compact} tagline />
 
         <div className="relative min-w-0">
           <form
@@ -232,7 +232,7 @@ export function SearchHeader({ compact = false }: { compact?: boolean }) {
             </div>
             <button
               type="submit"
-              className="flex h-[52px] w-[120px] shrink-0 items-center justify-center gap-2 bg-[#E96A50] text-[15px] font-bold text-white transition-transform duration-200 hover:scale-[1.02] hover:bg-[#D9583E]"
+              className="flex h-[52px] w-[120px] shrink-0 items-center justify-center gap-2 bg-navy text-[15px] font-bold text-white transition-transform duration-200 hover:scale-[1.02] hover:bg-[#183A58]"
             >
               <Search className="h-5 w-5" />
               Search
@@ -413,7 +413,7 @@ export function SearchHeader({ compact = false }: { compact?: boolean }) {
             <span className="relative">
               <Heart className="h-6 w-6" strokeWidth={1.75} />
               {wishlistCount > 0 && (
-                <span className="absolute -right-2 -top-2 grid h-5 min-w-5 place-items-center rounded-full bg-accent px-1 text-[11px] font-bold text-white">
+                <span className="absolute -right-2 -top-2 grid h-5 min-w-5 place-items-center rounded-full bg-navy px-1 text-[11px] font-bold text-white">
                   {wishlistCount}
                 </span>
               )}
@@ -425,7 +425,7 @@ export function SearchHeader({ compact = false }: { compact?: boolean }) {
           <IconLink href="/cart" label="Cart">
             <span className="relative">
               <ShoppingCart className="h-6 w-6" strokeWidth={1.75} />
-              <span className="absolute -right-2 -top-2 grid h-5 min-w-5 place-items-center rounded-full bg-accent px-1 text-[11px] font-bold text-white">
+              <span className="absolute -right-2 -top-2 grid h-5 min-w-5 place-items-center rounded-full bg-navy px-1 text-[11px] font-bold text-white">
                 {itemCount}
               </span>
             </span>

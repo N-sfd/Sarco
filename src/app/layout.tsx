@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import { businessConfig } from "@/config/business";
 import "./globals.css";
+import { AiAssistant } from "@/components/assistant/AiAssistant";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1a2b3c",
+  themeColor: "#0f172a",
   width: "device-width",
   initialScale: 1,
 };
@@ -80,6 +81,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to main content
         </a>
         {children}
+        <AiAssistant/>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

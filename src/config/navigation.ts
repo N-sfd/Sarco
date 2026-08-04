@@ -95,16 +95,6 @@ export const mainNavigation: MegaMenuItem[] = [
           { label: "Ventless Dryers", href: "/laundry/dryers/ventless" },
         ],
       },
-      {
-        title: "More Laundry",
-        links: [
-          { label: "Laundry Centers", href: "/laundry/laundry-centers" },
-          { label: "Washer Dryer Combos", href: "/laundry/washer-dryer-combos" },
-          { label: "Commercial Laundry", href: "/laundry/commercial" },
-          { label: "Pedestals", href: "/parts/laundry/pedestals" },
-          { label: "Laundry Accessories", href: "/parts/laundry" },
-        ],
-      },
     ],
   },
   {

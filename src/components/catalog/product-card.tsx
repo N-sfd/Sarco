@@ -33,7 +33,7 @@ function RatingStars({ rating, reviewCount }: { rating: number; reviewCount: num
               key={i}
               className={cn(
                 "h-3.5 w-3.5",
-                isFilled ? "fill-[#d4a017] text-[#d4a017]" : "fill-transparent text-[#cbd2d9]",
+                isFilled ? "fill-[#d4a017] text-[#d4a017]" : "fill-transparent text-[#cbd5e1]",
               )}
               strokeWidth={1.75}
             />
@@ -94,13 +94,13 @@ export function ProductCard({
     product.availability === "in_stock" || product.availability === "limited"
       ? "text-success"
       : product.availability === "delivery"
-        ? "text-[#083B82]"
-        : "text-accent";
+        ? "text-[#2563EB]"
+        : "text-muted";
 
   const card = (
     <article
       className={cn(
-        "flex h-full flex-col border border-border bg-white p-3 transition-shadow duration-300 sm:p-4",
+        "flex h-full min-w-0 flex-col border border-border bg-white p-3 transition-shadow duration-300 sm:p-4",
         animate && !shouldReduceMotion && "hover:shadow-md",
       )}
     >
@@ -135,7 +135,7 @@ export function ProductCard({
           onClick={() => wishlistToggle(product.id)}
           className="absolute right-2 top-2 grid h-9 w-9 place-items-center border border-border bg-white/95 backdrop-blur-sm"
         >
-          <Heart className={cn("h-4 w-4", wishlisted ? "fill-accent text-accent" : "text-navy")} />
+          <Heart className={cn("h-4 w-4", wishlisted ? "fill-navy text-navy" : "text-navy")} />
         </button>
       </div>
 
@@ -143,11 +143,16 @@ export function ProductCard({
         <p className="text-[12px] font-bold uppercase tracking-wide text-muted">{product.brand}</p>
         <Link
           href={`/products/${product.slug}`}
-          className="mt-1 line-clamp-2 min-h-[2.7em] text-[15px] font-semibold leading-[1.35] text-navy hover:text-accent sm:text-[16px]"
+          className="mt-1 line-clamp-2 min-h-[2.7em] text-[15px] font-semibold leading-[1.35] text-navy hover:text-[#2563EB] sm:text-[16px]"
         >
           {product.title}
         </Link>
-        <p className="mt-1 truncate text-[12px] text-muted">
+
+        <div className="mt-1.5">
+          <RatingStars rating={product.rating} reviewCount={product.reviewCount} />
+        </div>
+
+        <p className="mt-1.5 truncate text-[12px] text-muted">
           Model {product.model}
           {displayFinish ? ` · ${displayFinish}` : ""}
         </p>
@@ -188,22 +193,20 @@ export function ProductCard({
           ) : null}
         </div>
 
-        <div className="mt-2">
-          <RatingStars rating={product.rating} reviewCount={product.reviewCount} />
-        </div>
-
         <div className="mt-3">
           <div className="flex flex-wrap items-baseline gap-2">
-            <span className="text-[22px] font-bold text-navy sm:text-[24px]">{formatCurrency(price)}</span>
+            <span className="text-[24px] font-extrabold tracking-tight text-navy sm:text-[26px]">
+              {formatCurrency(price)}
+            </span>
             {product.salePrice != null && (
               <span className="text-[13px] text-muted line-through">{formatCurrency(product.price)}</span>
             )}
           </div>
 
-          <div className="relative mt-1">
+          <div className="relative mt-0.5">
             <button
               type="button"
-              className="text-left text-[13px] font-semibold text-[#083B82] underline-offset-2 hover:underline"
+              className="text-left text-[12px] font-normal text-muted underline-offset-2 hover:text-navy hover:underline"
               aria-expanded={financeOpen}
               onClick={() => setFinanceOpen((o) => !o)}
               onMouseEnter={() => setFinanceOpen(true)}
@@ -230,7 +233,7 @@ export function ProductCard({
                     </li>
                   ))}
                 </ul>
-                <Link href="/financing" className="mt-2 inline-block font-semibold text-accent hover:underline">
+                <Link href="/financing" className="mt-2 inline-block font-semibold text-[#2563EB] hover:underline">
                   View financing options →
                 </Link>
               </div>
@@ -289,12 +292,12 @@ export function ProductCard({
           ) : action === "call" ? (
             <a
               href={businessConfig.primaryContact.phoneHref}
-              className="btn btn-primary btn-sm text-center leading-tight"
+              className="btn btn-navy btn-sm text-center leading-tight"
             >
               Call {businessConfig.primaryContact.phoneDisplay}
             </a>
           ) : (
-            <Link href="/contact" className="btn btn-primary btn-sm text-center leading-tight">
+            <Link href="/contact" className="btn btn-navy btn-sm text-center leading-tight">
               Inquire / Special Order
             </Link>
           )}
@@ -307,7 +310,7 @@ export function ProductCard({
 
   return (
     <motion.div
-      className="group flex h-full"
+      className="group flex h-full min-w-0"
       initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}

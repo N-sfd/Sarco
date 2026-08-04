@@ -48,8 +48,8 @@ export function MegaMenu({ menu }: MegaMenuProps) {
                     <span>{link.label}</span>
                     <ChevronRight
                       className="mega-menu-link-arrow"
-                      size={14}
-                      strokeWidth={2.25}
+                      size={13}
+                      strokeWidth={2.5}
                       aria-hidden
                     />
                   </Link>

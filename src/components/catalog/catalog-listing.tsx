@@ -99,7 +99,7 @@ function InStockToggle({
       <span
         className={cn(
           "relative h-6 w-11 shrink-0 rounded-full transition-colors",
-          checked ? "bg-success" : "bg-[#cbd2d9]",
+          checked ? "bg-success" : "bg-[#cbd5e1]",
         )}
         aria-hidden
       >
@@ -665,7 +665,7 @@ export function CatalogListing({
 
       <div className="gap-8 md:grid md:grid-cols-[260px_minmax(0,1fr)] md:items-start">
         {/* Desktop filter sidebar */}
-        <aside className="relative z-10 hidden max-h-[calc(100vh-8.5rem)] overflow-y-auto border border-border bg-white p-4 shadow-[0_1px_0_rgba(16,40,63,0.04)] md:sticky md:top-32 md:block md:self-start">
+        <aside className="relative z-10 hidden max-h-[calc(100vh-8.5rem)] overflow-y-auto border border-border bg-white p-4 shadow-[0_1px_0_rgba(15,23,42,0.04)] md:sticky md:top-32 md:block md:self-start">
           <div className="mb-3 flex items-center justify-between border-b border-border pb-3">
             <p className="text-sm font-bold text-navy">Filters</p>
             <button
@@ -726,7 +726,7 @@ export function CatalogListing({
                   key={pill.id}
                   type="button"
                   onClick={pill.onClear}
-                  className="inline-flex items-center gap-1.5 border border-navy/20 bg-[#E8F1F8] px-2.5 py-1 text-[12px] font-semibold text-navy transition hover:border-accent hover:bg-accent-50"
+                  className="inline-flex items-center gap-1.5 border border-navy/20 bg-[#E0F2FE] px-2.5 py-1 text-[12px] font-semibold text-navy transition hover:border-accent hover:bg-accent-50"
                 >
                   {pill.label}
                   <X className="h-3 w-3" aria-hidden />
@@ -802,7 +802,7 @@ export function CatalogListing({
               <button type="button" className="btn btn-outline" onClick={clearFilters}>
                 Clear
               </button>
-              <button type="button" className="btn btn-primary" onClick={closeMobileFilters}>
+              <button type="button" className="btn btn-navy" onClick={closeMobileFilters}>
                 Show {filtered.length} results
               </button>
             </div>
@@ -821,7 +821,7 @@ function SuggestionBox({
   className?: string;
 }) {
   return (
-    <div className={cn("border border-[#083B82]/25 bg-[#E8F1F8] p-4 text-sm text-navy", className)}>
+    <div className={cn("border border-[#2563EB]/25 bg-[#E0F2FE] p-4 text-sm text-navy", className)}>
       <p className="font-bold">{suggestion.title}</p>
       <p className="mt-1 leading-relaxed text-navy/85">{suggestion.body}</p>
       <div className="mt-3 flex flex-wrap gap-3">

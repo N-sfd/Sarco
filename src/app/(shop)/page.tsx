@@ -8,17 +8,17 @@ import { KitchenPackagesSection } from "@/components/home/kitchen-packages-secti
 import { FeaturedProducts } from "@/components/home/featured-products-carousel";
 import { CategoryGrid } from "@/components/home/shop-by-category";
 import { GrillsPromo } from "@/components/home/grills-promo";
+import { RepairPromo } from "@/components/home/repair-promo";
 import { SecuringYourHomePromo } from "@/components/home/securing-your-home-promo";
 import { BuildersPromo } from "@/components/home/builders-promo";
 import { ReviewCarousel } from "@/components/home/reviews-slider";
-import { NewsletterSignup } from "@/components/home/vip-newsletter";
 
 /**
- * Homepage order (1–5 in SiteHeader):
- * 6 Rebate · 7 Hero · 8 Services · 9 Financing/Security promos
- * 10 Kitchen Packages · 11 Featured · 12 Laundry · 13 Categories
- * 14 Grills · 15 Repair · 16 Securing Your Home · 17 Builders
- * 18 Reviews · 19 Newsletter · 20 Footer
+ * Homepage order:
+ * Rebate · Hero · Services · Financing/Security promos
+ * Kitchen Packages · Featured · Laundry · Categories
+ * Grills · Repair · Securing Your Home · Builders
+ * Reviews · Footer
  */
 export default function HomePage() {
   return (
@@ -45,22 +45,11 @@ export default function HomePage() {
       <CategoryGrid />
 
       <GrillsPromo />
-
-      <SplitPromoSection
-        title="Factory-Trained Appliance Repair & Maintenance"
-        description="Fast diagnostics, genuine replacement parts, and certified service for all major appliance brands across Hagerstown."
-        cta="Schedule Service"
-        href="/repair/schedule"
-        image={siteImages.promoRepair}
-        imagePosition="left"
-        background="white"
-      />
-
+      <RepairPromo />
       <SecuringYourHomePromo />
-
       <BuildersPromo />
+
       <ReviewCarousel />
-      <NewsletterSignup />
     </>
   );
 }

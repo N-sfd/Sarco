@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { products } from "@/data/products";
@@ -19,10 +20,15 @@ function quickSpecLine(p: (typeof products)[number]) {
 }
 
 export function CompareBar() {
+  const pathname = usePathname();
   const productIds = useCompare((s) => s.productIds);
   const toggle = useCompare((s) => s.toggle);
   const clear = useCompare((s) => s.clear);
   const items = products.filter((p) => productIds.includes(p.id));
+
+  // Redundant (and visually overlaps the table) on the compare page itself,
+  // where the user is already looking at the full side-by-side specs.
+  if (pathname === "/compare") return null;
 
   return (
     <AnimatePresence>
@@ -32,7 +38,7 @@ export function CompareBar() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-x-0 bottom-16 z-[70] border-t-2 border-navy/15 bg-white shadow-[0_-8px_28px_rgba(16,40,63,.14)] lg:bottom-0"
+          className="fixed inset-x-0 bottom-16 z-[70] border-t-2 border-navy/15 bg-white shadow-[0_-8px_28px_rgba(15,23,42,.14)] lg:bottom-0"
           role="region"
           aria-label="Compare products"
         >

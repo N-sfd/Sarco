@@ -33,7 +33,7 @@ export function ServiceBenefits() {
                 )}
               >
                 <motion.div
-                  className="service-icon-wrapper mx-auto mb-[18px] flex h-14 w-14 items-center justify-center rounded-full bg-[#083B82]"
+                  className="service-icon-wrapper mx-auto mb-[18px] flex h-14 w-14 items-center justify-center rounded-full bg-[#2563EB]"
                   initial={
                     shouldReduceMotion
                       ? { y: 0, opacity: 1, x: 0 }
