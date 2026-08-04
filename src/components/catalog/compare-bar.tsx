@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { products } from "@/data/products";
@@ -19,10 +20,15 @@ function quickSpecLine(p: (typeof products)[number]) {
 }
 
 export function CompareBar() {
+  const pathname = usePathname();
   const productIds = useCompare((s) => s.productIds);
   const toggle = useCompare((s) => s.toggle);
   const clear = useCompare((s) => s.clear);
   const items = products.filter((p) => productIds.includes(p.id));
+
+  // Redundant (and visually overlaps the table) on the compare page itself,
+  // where the user is already looking at the full side-by-side specs.
+  if (pathname === "/compare") return null;
 
   return (
     <AnimatePresence>

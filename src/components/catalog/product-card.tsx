@@ -100,7 +100,7 @@ export function ProductCard({
   const card = (
     <article
       className={cn(
-        "flex h-full flex-col border border-border bg-white p-3 transition-shadow duration-300 sm:p-4",
+        "flex h-full min-w-0 flex-col border border-border bg-white p-3 transition-shadow duration-300 sm:p-4",
         animate && !shouldReduceMotion && "hover:shadow-md",
       )}
     >
@@ -310,7 +310,7 @@ export function ProductCard({
 
   return (
     <motion.div
-      className="group flex h-full"
+      className="group flex h-full min-w-0"
       initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}

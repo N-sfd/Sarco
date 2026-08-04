@@ -1077,7 +1077,7 @@ export const products: Product[] = [
     finish: "Stainless Steel",
   }),
   p({
-    id: "p40",
+    id: "p47",
     slug: "speed-queen-dryer",
     brand: "Speed Queen",
     title: "Electric Commercial Dryer",
