@@ -169,7 +169,7 @@ export function SiteFooter() {
 
       <div className="footer-brand-row">
         <div className="footer-brand-row-inner">
-          <Logo light />
+          <Logo light tagline />
           <div className="social-links">
             <a
               href={siteConfig.socials.facebook}
